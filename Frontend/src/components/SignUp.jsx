@@ -19,7 +19,11 @@ function SignUp() {
     //alert(formInput.email);
 
     // axios.get("/api/hello1").then((response) => console.log(response));
-
+    const headers = {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "*",
+      "Access-Control-Allow-Credentials": "true",
+    };
     axios
       .post("/api/users/add", {
         firstName: formInput.firstName,

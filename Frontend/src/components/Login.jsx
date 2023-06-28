@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import coffeeGif from ".././assets/coffee_gif.gif";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Login() {
   const [formInput, setFormInput] = useState({
@@ -11,7 +12,20 @@ function Login() {
   const handleForm = (e) => {
     e.preventDefault();
 
-    alert(formInput);
+    try {
+      const response = axios.post("/api/log-in", {
+        emailId: formInput.email,
+        password: formInput.password,
+      });
+      // Handle successful login, e.g., redirect to home page
+
+      response.then((value) => console.log(value.data));
+    } catch (error) {
+      // Handle login error
+      console.log(error);
+    }
+
+    alert(formInput.email);
   };
 
   const handleInputEmail = (e) => {
