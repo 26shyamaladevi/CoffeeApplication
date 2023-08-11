@@ -1,7 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import coffeeGif from ".././assets/coffee_gif.gif";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { getAuthToken, setAuthToken } from "./AuthLogic/authTokenUtil";
+import { UserContext } from "./ContextAPI/UserContext";
+import Alert from "./Alert/Alert";
+
+import { useDispatch } from "react-redux";
+import { addUserDetails } from "./Store/userSlice";
 
 function Login() {
   const [formInput, setFormInput] = useState({
@@ -9,33 +15,64 @@ function Login() {
     password: "",
   });
 
-  const handleForm = (e) => {
+  const [alertMessage, setAlertMessage] = useState(null);
+  //const { userDetails, addUserDetails } = useContext(UserContext);
+
+  const dispatch = useDispatch();
+
+  const handleAddUser = (userData) => {
+    dispatch(addUserDetails(userData));
+  };
+
+  //Function to Handle Form
+  const handleForm = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = axios.post("/api/log-in", {
-        emailId: formInput.email,
-        password: formInput.password,
-      });
-      // Handle successful login, e.g., redirect to home page
+    //get JWT
+    const jwt = getAuthToken();
 
-      response.then((value) => console.log(value.data));
-    } catch (error) {
-      // Handle login error
-      console.log(error);
+    let headers = {};
+    if (jwt != null && jwt != "null") {
+      headers = {
+        Authorization: `Bearer ${jwt}`,
+      };
+      console.log("headers: " + headers);
     }
 
-    alert(formInput.email);
+    try {
+      const response = await axios.post(
+        "/api/log-in",
+        {
+          emailId: formInput.email,
+          password: formInput.password,
+        },
+        { headers: headers }
+      );
+
+      // Handling successful login
+      setAlertMessage({ type: "success", text: "Login successful!" });
+      console.log(response);
+      setAuthToken(response.data.token);
+      setTimeout(() => {
+        handleAddUser(response.data);
+        navigateTo("/welcome");
+      }, 2000);
+    } catch (error) {
+      // Handle login error
+      const errMsg = error.response.data.message;
+
+      setAlertMessage({ type: "error", text: errMsg.toString() });
+    }
   };
 
   const handleInputEmail = (e) => {
-    //console.log(e.target.value);
     setFormInput({ ...formInput, email: e.target.value });
   };
+
   const handleInputPass = (e) => {
-    //console.log(e.target.value);
     setFormInput({ ...formInput, password: e.target.value });
   };
+
   useEffect(() => {
     console.log(formInput);
   }, [formInput]);
@@ -43,8 +80,8 @@ function Login() {
   const navigateTo = useNavigate();
 
   return (
-    <div className='bg-gray-100 relative flex flex-col justify-center min-h-screen overflow-hidden '>
-      <div className='sm:mx-auto sm:w-full sm:max-w-sm w-full p-6  bg-white rounded-md ring-2 ring-amber-600 lg:max-w-xl'>
+    <div className=' relative flex flex-col justify-center min-h-screen overflow-hidden'>
+      <div className='sm:mx-auto sm:w-full sm:max-w-sm w-full p-6 bg-lemon rounded-md ring-2 ring-black lg:max-w-xl'>
         <img
           className='mx-auto '
           src={coffeeGif}
@@ -52,15 +89,20 @@ function Login() {
           width='100px'
           height='100px'
         ></img>
-        <h2 className='text-xl font-semibold text-center text-amber-700decoration-orange-400'>
+        <h2 className='text-xl font-bold text-center  '>
           Sign in to your account
         </h2>
+        {alertMessage && (
+          <Alert
+            message={alertMessage.text}
+            type={alertMessage.type}
+            onClose={() => setAlertMessage(null)}
+          />
+        )}
+
         <form>
           <div className='mb-2 content-center'>
-            <label
-              htmlFor='email'
-              className='block text-sm font-semibold text-gray-800'
-            >
+            <label htmlFor='email' className='block text-sm font-semibold'>
               Email:
             </label>
             <input
@@ -68,14 +110,11 @@ function Login() {
               value={formInput.email}
               autoComplete='email'
               onChange={handleInputEmail}
-              className='block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-600 sm:text-sm sm:leading-6'
+              className='block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-black ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber sm:text-sm sm:leading-6'
             />
           </div>
           <div className='mb-2'>
-            <label
-              htmlFor='password'
-              className='block text-sm font-semibold text-gray-800'
-            >
+            <label htmlFor='password' className='block text-sm font-semibold'>
               Password:
             </label>
             <input
@@ -83,28 +122,29 @@ function Login() {
               value={formInput.password}
               autoComplete='password'
               onChange={handleInputPass}
-              className='block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-600 sm:text-sm sm:leading-6'
+              className='block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber sm:text-sm sm:leading-6'
             />
           </div>
-          <a href='#' className='text-xs text-amber-600 hover:underline'>
+          {/* <a href='#' className='text-xs text-amber hover:underline'>
             {" "}
             Forgot Password ?
-          </a>
+          </a> */}
           <div className='mt-6'>
             <button
               onClick={handleForm}
-              className='w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-amber-700 rounded-md hover:bg-amber-600 focus:bg-amber-300'
+              className='w-full px-4 py-2 tracking-wide font-semibold transition-colors duration-200 transform bg-btnprimary rounded-md hover:bg-btnhover '
             >
               Login
             </button>
           </div>
         </form>
-        <p className='mt-8 text-xs font-light text-center text-gray-700'>
-          Don't have an account ?
+        <p className='mt-8 text-xs font-medium text-center '>
+          Don't have an account?
           <b
-            className='font-medium text-amber-600 hover:underline cursor-pointer'
+            className='font-bold font-xl hover:underline cursor-pointer hover:decoration-yellow'
             onClick={() => navigateTo("/signUp")}
           >
+            {" "}
             Sign up
           </b>
         </p>

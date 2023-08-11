@@ -16,7 +16,7 @@ public class PaymentDataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         // Hardcoded payment method values
-        String[] paymentMethods = { "Credit Card", "Debit Card", "Cash", "Paypal" };
+        String[] paymentMethods = { "Credit Card", "Debit Card", "Cash" };
 
         for (String paymentMethod : paymentMethods) {
             Payment payment = new Payment();

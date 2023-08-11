@@ -1,12 +1,12 @@
 package com.example.CoffeeApp.controllers;
 
+import java.io.IOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+
 import com.example.CoffeeApp.domains.Product;
 import com.example.CoffeeApp.services.ProductService;
 
@@ -19,12 +19,14 @@ public class ProductController {
     private ProductService productservice;
 
     @GetMapping("/products")
-    public List<Product> getProducts() {
-        return productservice.viewProducts();
+    public ResponseEntity<List<Product>> getProducts() {
+        System.out.println(productservice.viewProducts());
+        return ResponseEntity.ok(productservice.viewProducts());
     }
 
     @PostMapping("/products/add")
-    public String addNewProducts(@RequestBody Product product) {
+    public String addNewProducts(@RequestBody Product product)
+            throws IOException {
         if (product.getid() == 0 && productservice.getpName(product.getproductName())) {
             productservice.addProduct(product);
             return "New Product" + product.getproductName() + " added successfully";

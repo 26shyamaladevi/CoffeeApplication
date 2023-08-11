@@ -1,6 +1,14 @@
 package com.example.CoffeeApp.domains;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import org.springframework.data.annotation.CreatedDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -18,7 +26,21 @@ public class Orders {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orders")
     private List<OrderItems> orderItems;
 
+    private double totalPrice;
+
     private String paymentMethod;
+
+    @CreatedDate
+    private Instant orderDate;
+
+    @JsonFormat(pattern = "MM/dd/yyyy HH:mm:ss", timezone = "UTC")
+    public Instant getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Instant orderDate) {
+        this.orderDate = orderDate;
+    }
 
     public long getOrderId() {
         return orderId;
@@ -61,6 +83,41 @@ public class Orders {
 
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    // Method to return orderDate as a formatted string in JSON format
+    public String getFormattedOrderDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm:ss a").withZone(ZoneId.of("UTC"));
+        return orderDate.atZone(ZoneId.systemDefault()).format(formatter);
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        orderDate = Instant.now();
+
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Orders{");
+        sb.append("orderId=").append(orderId);
+        sb.append(", customer=").append(customer);
+        // sb.append(", customerEmailId='").append(customerEmailId).append('\'');
+        sb.append(", orderItems=").append(orderItems);
+        sb.append(", totalPrice=").append(totalPrice);
+        sb.append(", orderDate=").append(orderDate);
+        sb.append(", paymentMethod='").append(paymentMethod).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 
 }

@@ -11,6 +11,8 @@ public class Product {
     @Column(nullable = false)
     private String productName;
 
+    private String description;
+
     @Column(nullable = false)
     private double price;
 
@@ -40,6 +42,14 @@ public class Product {
 
     public Product orElseThrow(Object object) {
         return null;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }

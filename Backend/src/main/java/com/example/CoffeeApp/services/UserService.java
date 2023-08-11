@@ -7,8 +7,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.example.CoffeeApp.dto.UserDto;
+import com.example.CoffeeApp.dto.CredentialDto;
+import com.example.CoffeeApp.mappers.UserMapper;
+import com.example.CoffeeApp.exception.AppException;
 
 /* Service class responsible for user-related operations.
 Implements business logic for user management and interacts with UserRepo for data access */
@@ -17,14 +23,16 @@ Implements business logic for user management and interacts with UserRepo for da
 public class UserService {
     public final UserRepo userrepo;
     public final RoleService roleService;
+    private final UserMapper userMapper;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     // Constructor injection of UserRepo,roleservice dependency
-    public UserService(UserRepo userRepo, RoleService roleservice) {
+    public UserService(UserRepo userRepo, RoleService roleservice, UserMapper userMapper) {
         this.userrepo = userRepo;
         this.roleService = roleservice;
+        this.userMapper = userMapper;
     }
 
     // Retrieve all users
@@ -32,16 +40,38 @@ public class UserService {
         return (List<User>) userrepo.findAll();
     }
 
+    // Retrive the specified User
+    public User viewUser(String emailId) {
+
+        return userrepo.findByEmailId(emailId);
+
+    }
+
+    // Password Match
+    public Boolean passwordMatch(String emailId, String password) {
+        User currentUser = userrepo.findByEmailId(emailId);
+        String currentUserPassword = currentUser.getPassword();
+        if (passwordEncoder.matches(password, currentUserPassword)) {
+            return true;
+        } else {
+            return false;
+
+        }
+
+    }
+
     // Add New User
     public void addUsers(User user) {
         if (user.getRole() != null && user.getRole().getRName() != null) {
-            roleService.addRoles(user.getRole());
+            Optional<Role> role = roleService.addRoles(user.getRole());
+            System.out.print(user.getRole());
+
             User new_user = new User();
             new_user.setEmailId(user.getEmailId());
             new_user.setFirstName(user.getFirstName());
             new_user.setLastName(user.getLastName());
             new_user.setPassword(passwordEncoder.encode(user.getPassword()));
-
+            new_user.setRole(role.orElse(null));
             userrepo.save(new_user);
 
         } else {
@@ -73,10 +103,13 @@ public class UserService {
     }
 
     // Update an existing user
-    public String updateUser(User u) {
+    public String updateUser(User u, String password) {
 
+        System.out.println("Inside updateUser" + password);
+
+        u.setPassword(passwordEncoder.encode(password));
         userrepo.save(u);
-        return "User " + u.getLastName() + " " + "with id:" + " " + u.getUserId() + " " + "is updated sucessfully.";
+        return "Password updated sucessfully!";
     }
 
     // Delete a user by ID
@@ -94,8 +127,39 @@ public class UserService {
         return optionalUser.orElse(null);
     }
 
-    public org.apache.catalina.User loadUserByEmai(String userEmail) {
-        return null;
+    public User findByEmailId(String EmailId) {
+        User user = userrepo.findByEmailId(EmailId);
+        System.out.println(user + "fromfindbyemailId");
+
+        return user;
+
+    }
+
+    public UserDto findByLogin(String login) {
+        // System.out.println("login---------------------------" + login);
+        User user = userrepo.findByEmailId(login);
+        if (user == null) {
+            throw new AppException("Unknown user", HttpStatus.NOT_FOUND);
+        }
+        return userMapper.toUserDto(user);
+
+    }
+
+    public UserDto login(CredentialDto credentialDto) {
+
+        User user = userrepo.findByEmailId(credentialDto.getEmailId());
+        if (user == null) {
+            throw new AppException("Unknown user", HttpStatus.NOT_FOUND);
+        }
+
+        else if (passwordEncoder.matches(credentialDto.getPassword(), user.getPassword())) {
+            return userMapper.toUserDto(user);
+        }
+
+        else {
+            throw new AppException("Invalid Password", HttpStatus.BAD_REQUEST);
+        }
+
     }
 
 }
