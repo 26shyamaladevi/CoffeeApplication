@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.CoffeeApp.domains.Product;
 import com.example.CoffeeApp.services.ProductService;
@@ -25,15 +26,13 @@ public class ProductController {
     }
 
     @PostMapping("/products/add")
-    public String addNewProducts(@RequestBody Product product)
-            throws IOException {
+    public ResponseEntity<String> addNewProducts(@RequestBody Product product,
+            @RequestParam("image") MultipartFile image) throws IOException {
         if (product.getid() == 0 && productservice.getpName(product.getproductName())) {
-            productservice.addProduct(product);
-            return "New Product" + product.getproductName() + " added successfully";
-        }
-
-        else {
-            return "Product already exsists, Please update it.";
+            productservice.addProduct(product, image);
+            return ResponseEntity.ok("New Product" + product.getproductName() + " added successfully");
+        } else {
+            return ResponseEntity.badRequest().body("Product already exsist");
         }
 
     }

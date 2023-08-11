@@ -14,6 +14,7 @@ import AppProvider from "./components/ContextAPI/AppProvider";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./components/Store/store";
+import ProductUpload from "./components/ProductUpload";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
@@ -24,6 +25,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route path='/' element={<Login />} />
 
             <Route path='/signUp' element={<SignUp />} />
+            <Route path='/products/upload' element={<ProductUpload />} />
 
             <Route element={<ProtectedRoutes />}>
               <Route element={<WelcomePage />} path='/welcome' exact />

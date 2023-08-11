@@ -36,5 +36,5 @@ export default {
   variants: {
     fill: ["hover", "focus"],
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [require("@tailwindcss/typography"), require("@tailwindcss/forms")],
 };
