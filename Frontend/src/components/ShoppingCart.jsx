@@ -71,7 +71,7 @@ export default function ShoppingCart() {
       className={
         istoggleMinimize
           ? " fixed z-20 bottom-16 right-0 h-20 w-full max-w-[21rem] p-4 shadow-xl shadow-blue-gray-900/5 bg-zinc-50 overflow-auto shadow-black"
-          : "fixed bottom-3 md:top-14  right-0  h-[calc(100vh-12rem] md:h-[calc(100vh-3rem)] w-full max-w-[20rem] p-2 shadow-xl shadow-blue-gray-900/5 bg-zinc-50 overflow-auto shadow-black"
+          : "fixed bottom-3 md:top-14  right-0  h-[calc(100vh-12rem] md:h-[calc(100vh-3rem)] w-full max-w-[21rem] p-2 shadow-xl shadow-blue-gray-900/5 bg-zinc-50 overflow-auto shadow-black"
       }
     >
       <div className='mb-2 mt-4 p-2 text-gray-950 '>
@@ -143,13 +143,13 @@ export default function ShoppingCart() {
       </div>
       <div className='grid grid-flow-row mb-4'>
         <div className='grid grid-cols-3 content-start'>
-          <h3 className='font-semibold text-gray-900 columns-[10rem] text-xs uppercase flex items-center justify-center'>
+          <h3 className='font-semibold text-gray-900 columns-[10rem] text-sm uppercase flex items-center justify-center'>
             Product
           </h3>
-          <h2 className='font-semibold   text-center col-span-1 text-gray-900 text-xs uppercase flex items-center justify-center '>
+          <h2 className='font-semibold   text-center col-span-1 text-gray-900 text-sm uppercase flex items-center justify-center '>
             Quantity
           </h2>
-          <h2 className='font-semibold text-center col-span-1 pl-0 text-gray-900 text-xs uppercase flex items-center justify-center  '>
+          <h2 className='font-semibold text-center col-span-1 pl-0 text-gray-900 text-sm uppercase flex items-center justify-center  '>
             Price
           </h2>
         </div>
@@ -159,11 +159,11 @@ export default function ShoppingCart() {
           <ListItem
             key={item.id}
             ripple={false}
-            className='py-1 pr-1 text-gray-500 '
+            className='py-1 pr-1 text-gray-600 '
           >
             <div className='grid grid-cols-3 gap-16'>
               <div className='col-span-1'>
-                <Typography variant='h4' className=' text-xs w-2/5 pl-6 '>
+                <Typography variant='h1' className=' text-sm w-2/5 pl-2 '>
                   {item.pName}
                 </Typography>
               </div>

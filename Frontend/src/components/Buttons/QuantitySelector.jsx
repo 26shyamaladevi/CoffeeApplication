@@ -64,7 +64,7 @@ const QuantitySelector = (props) => {
       <input
         type='number'
         value={quantity}
-        className='w-10 h-5 pl-2 text-center border border-gray-300 '
+        className='appearance-none w-10 h-5 text-xs leading-tight text-center border border-gray-300 '
         onChange={handleChange}
       />
       <button

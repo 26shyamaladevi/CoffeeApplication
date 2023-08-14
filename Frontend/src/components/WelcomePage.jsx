@@ -106,8 +106,8 @@ const WelcomePage = () => {
               />
             )}
 
-            <div className='mt-4 flex align-items-center justify-center text-2xl font-bold text-orange-600  capitalize'>
-              Hot Classics
+            <div className='mt-8 flex align-items-center justify-center text-3xl font-bold text-orange-600  capitalize'>
+              Our Hot Classics
             </div>
 
             <section
@@ -121,13 +121,13 @@ const WelcomePage = () => {
                 div
                 className={
                   isCartVisible
-                    ? "w-4/5 grid grid-cols-1 md:grid-cols-2 xl:gap-12 xl:grid-cols-3 gap-2 rounded-lg "
-                    : "grid grid-cols-1 md:grid-cols-2 xl:gap-12 xl:grid-cols-3 gap-2 rounded-lg "
+                    ? "w-5/6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 rounded-lg items-center justify-center"
+                    : "grid grid-cols-1 md:grid-cols-2 xl:gap-12 xl:grid-cols-3 gap-2 rounded-lg items-center justify-center "
                 }
               >
                 {products.map(
-                  ({ id, productName, price, description, url }) => (
-                    <div className='mt-2 mb-4'>
+                  ({ id, productName, price, description, imageData }) => (
+                    <div className='mt-2 mb-4 '>
                       <ProductCard
                         id={id}
                         quantity={1} // Set the initial quantity to 1
@@ -135,7 +135,7 @@ const WelcomePage = () => {
                         pName={productName}
                         price={price}
                         description={description}
-                        url={url}
+                        url={`data:image/png;base64,${imageData}`}
                       ></ProductCard>
                     </div>
                   )

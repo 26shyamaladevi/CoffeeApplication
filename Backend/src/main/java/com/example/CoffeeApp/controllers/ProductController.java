@@ -26,7 +26,7 @@ public class ProductController {
     }
 
     @PostMapping("/products/add")
-    public ResponseEntity<String> addNewProducts(@RequestBody Product product,
+    public ResponseEntity<String> addNewProducts(@ModelAttribute Product product,
             @RequestParam("image") MultipartFile image) throws IOException {
         if (product.getid() == 0 && productservice.getpName(product.getproductName())) {
             productservice.addProduct(product, image);

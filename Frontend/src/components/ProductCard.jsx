@@ -33,10 +33,14 @@ export default function ProductCard(props) {
   return (
     <Card
       variant='filled'
-      className='  flex flex-col max-w-7xl items-center justify-center ml-8 mr-8 my-8 ring ring-3 mb-2 shadow-lg  bg-zinc-100/95 overflow-visible'
+      className='  flex flex-col  items-center justify-center ml-8 mr-8 my-8 ring ring-3 mb-2 shadow-lg  bg-zinc-100/95 overflow-visible '
     >
-      <CardHeader shadow={false} floated={false} className='h-40 w-40'>
-        <img src={props.url}></img>
+      <CardHeader shadow={false} floated={false}>
+        <img
+          src={props.url}
+          alt={props.pName}
+          className=' object-cover w-72 h-72'
+        ></img>
       </CardHeader>
 
       <CardBody className='mb-0 '>
@@ -48,8 +52,8 @@ export default function ProductCard(props) {
           >
             {props.pName}
           </Typography>
-          <div className='w-fit  max-h-12 '>
-            <Typography className='pb-2 '>{props.description}</Typography>
+          <div className='w-fit h-12 '>
+            <Typography className='pb-2  '>{props.description}</Typography>
             <Typography className='font-medium pb-2'>
               $ {props.price.toFixed(2)}
             </Typography>

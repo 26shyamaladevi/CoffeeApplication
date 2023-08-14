@@ -3,6 +3,7 @@ import { Breadcrumbs, Typography } from "@material-tailwind/react";
 import { useState } from "react";
 import axios from "axios";
 import { getAuthToken } from "./AuthLogic/authTokenUtil";
+import ProductList from "./DownloadImage";
 
 function ProductUpload() {
   const [state, setState] = useState({
@@ -30,7 +31,7 @@ function ProductUpload() {
     if (newFile) {
       setPreviewUrl(URL.createObjectURL(newFile));
       setFile(newFile);
-      //setState({ ...state, imagedata: newFile });
+      setState({ ...state, imagedata: newFile });
     }
   };
   const handleDelete = () => {
@@ -48,18 +49,20 @@ function ProductUpload() {
   const handleSave = async (event) => {
     event.preventDefault();
     console.log(state);
+    const formData = new FormData();
+    formData.append("productName", state.productName);
+    formData.append("price", state.price);
+    formData.append("description", state.description);
+    formData.append("image", file);
     try {
       const token = getAuthToken();
       let headers = {
         Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
       };
-      const response = await axios.post(
-        `/api/products/add?image=${encodeURIComponent(file)}`,
-        state,
-        {
-          headers: headers,
-        }
-      );
+      const response = await axios.post(`/api/products/add`, formData, {
+        headers: headers,
+      });
       console.log(response);
     } catch (err) {
       console.log(err);

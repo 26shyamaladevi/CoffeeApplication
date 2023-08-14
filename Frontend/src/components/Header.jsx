@@ -43,8 +43,8 @@ function Header() {
   };
 
   return (
-    <header>
-      <nav className='flex items-center justify-between flex-wrap  p-6 pb-2 border-b-2'>
+    <header className='bg-yellow-600/75'>
+      <nav className='flex items-center justify-between flex-wrap  p-6 pb-2 border-b-2 '>
         <div className='flex items-center flex-shrink-0  mr-6'>
           <img
             src={CoffeeLogo}
@@ -75,21 +75,21 @@ function Header() {
           <div className='text-md font-semibold lg:flex-grow '>
             <a
               href='#responsive-header'
-              className='block mt-4 lg:inline-block lg:mt-0  font-medium text-btnprimary mr-4 hover:scale-110 px-4 text-decoration-line: underline underline-offset-8 decoration-slate-500	'
+              className='block mt-4 lg:inline-block lg:mt-0 font-base font-semibold  text-orange-600 mr-4 hover:scale-110 px-4 text-decoration-line: underline underline-offset-8 decoration-slate-500	'
               onClick={handleHomeNav}
             >
               Home
             </a>
             <a
               href='#responsive-header'
-              className='block mt-4 lg:inline-block lg:mt-0 font-base font-medium text-btnprimary mr-4 hover:scale-110 px-4 text-decoration-line: underline underline-offset-8  decoration-slate-500		'
+              className='block mt-4 lg:inline-block lg:mt-0 font-base font-semibold text-orange-600 mr-4 hover:scale-110 px-4 text-decoration-line: underline underline-offset-8  decoration-slate-500		'
               onClick={handkeProfileNav}
             >
               Profile
             </a>
             <a
               href='#responsive-header'
-              className='block mt-4 lg:inline-block lg:mt-0 font-base font-medium text-btnprimary  mr-4 hover:scale-110 px-4 text-decoration-line: underline underline-offset-8	 decoration-slate-500	'
+              className='block mt-4 lg:inline-block lg:mt-0 font-base font-medium text-orange-600  mr-4 hover:scale-110 px-4 text-decoration-line: underline underline-offset-8	 decoration-slate-500	'
               onClick={handleOrderNav}
             >
               Orders
