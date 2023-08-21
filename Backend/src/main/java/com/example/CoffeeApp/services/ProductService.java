@@ -1,13 +1,13 @@
 package com.example.CoffeeApp.services;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.example.CoffeeApp.repositories.ProductRepo;
 import com.example.CoffeeApp.domains.Product;
-
-/* Service class responsible for product-related operations. Implements business logic for product management and interacts with ProductRepo for data access */
 
 @Service
 public class ProductService {
@@ -18,10 +18,17 @@ public class ProductService {
     }
 
     // Adds a new product to the repository
-    public void addProduct(Product p) {
+    public void addProduct(Product p, MultipartFile imageFile) throws IOException {
         int id = Math.abs(p.getproductName().hashCode());
-        p.setid(id);
-        productrepo.save(p);
+        Product newProduct = new Product();
+
+        newProduct.setid(id);
+        newProduct.setproductName(p.getproductName());
+        newProduct.setprice(p.getprice());
+        newProduct.setDescription(p.getDescription());
+        newProduct.setImageData(imageFile.getBytes());
+
+        productrepo.save(newProduct);
     }
 
     // Retrieves a list of all products

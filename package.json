@@ -13,6 +13,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.9",
     "concurrently": "^8.2.0"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.9.5",
+    "html2pdf.js": "^0.10.1",
+    "immutable": "^4.3.1",
+    "react-redux": "^8.1.1",
+    "redux-persist": "^6.0.0"
   }
 }

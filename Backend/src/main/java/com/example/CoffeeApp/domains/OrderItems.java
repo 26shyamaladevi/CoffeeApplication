@@ -72,4 +72,16 @@ public class OrderItems {
         this.quantity = quantity;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("OrderItems{");
+        // sb.append("oId=").append(oId);
+        sb.append(", pId=").append(pId);
+        // sb.append(", pName='").append(pName).append('\'');
+        sb.append(", price=").append(price);
+        sb.append(", quantity=").append(quantity);
+        sb.append('}');
+        return sb.toString();
+    }
 }

@@ -4,8 +4,9 @@ import com.example.CoffeeApp.domains.Product;
 
 import java.io.Serializable;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ProductRepo extends CrudRepository<Product, Serializable> {
+public interface ProductRepo extends JpaRepository<Product, Serializable> {
     boolean existsById(long id);
+
 }

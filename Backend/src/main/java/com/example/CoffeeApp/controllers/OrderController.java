@@ -3,6 +3,7 @@ package com.example.CoffeeApp.controllers;
 import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,21 +15,64 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.CoffeeApp.domains.OrderItems;
 import com.example.CoffeeApp.domains.Orders;
 import com.example.CoffeeApp.services.OrderService;
+import com.example.CoffeeApp.services.UserService;
+import com.example.CoffeeApp.dto.UserDto;
+
+import org.springframework.security.core.Authentication;
 
 @RestController
 public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    // ViewOrders
+    @Autowired
+    private UserService userService;
+
+    // ViewOrders by Id
     @GetMapping("orders/{orderId}")
     public List<OrderItems> getOrders(@PathVariable("orderId") Long orderId) {
         return orderService.viewOrders(orderId);
     }
 
+    // View all Orders
+    @GetMapping("orders")
+    public List<OrderItems> getAllOrders() {
+
+        // Get the logged-in user's ID from the Authentication object
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Long userId = getUserIdFromAuthentication(authentication);
+
+        // Fetch orders for the logged-in user using the OrderService
+        if (userId != null && userService.isexistsByUserId(userId)) {
+            return orderService.viewAllOrders(userId);
+        }
+
+        return null;
+
+    }
+
+    // Method to extract the user ID from the Authentication object
+    private Long getUserIdFromAuthentication(Authentication authentication) {
+        if (authentication != null && authentication.getPrincipal() instanceof UserDto) {
+
+            UserDto userDetails = (UserDto) authentication.getPrincipal();
+
+            return userDetails.getUserId();
+        }
+        return null;
+    }
+
     // CreateOrder
     @PostMapping("orders/add")
     public ResponseEntity<String> addNewOrders(@RequestBody Orders order) {
+
+        System.out.println("Received Order: " + order.toString());
+
+        // if (order.getCustomer() == null) {
+        // throw new IllegalArgumentException("Customer cannot be null.");
+        // }
+
+        System.out.println("Received Order: " + order.toString());
 
         boolean created = orderService.createOrder(order);
         return (created) ? ResponseEntity.ok("Order created sucessfully") : ResponseEntity.notFound().build();

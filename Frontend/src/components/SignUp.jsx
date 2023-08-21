@@ -16,32 +16,25 @@ function SignUp() {
   const navigateTo = useNavigate();
 
   const handleForm = (e) => {
-    //alert(formInput.email);
-
-    // axios.get("/api/hello1").then((response) => console.log(response));
-    const headers = {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers": "*",
-      "Access-Control-Allow-Credentials": "true",
+    const userDetails = {
+      firstName: formInput.firstName,
+      lastName: formInput.lastName,
+      password: formInput.password,
+      emailId: formInput.email,
+      role: {
+        rname: formInput.role,
+      },
     };
     axios
-      .post("/api/users/add", {
-        firstName: formInput.firstName,
-        lastName: formInput.lastName,
-        password: formInput.password,
-        emailId: formInput.email,
-        role: {
-          rname: formInput.role,
-        },
-      })
+      .post("/api/users/add", userDetails)
       .then(function (response) {
         if (response.status == 200) {
-          alert("Account created sucessfully");
+          console.log(response);
           navigateTo("/");
         }
       })
       .catch(function (error) {
-        alert("An Error occured. Please try agian ! ");
+        alert(error.response.data);
       });
     e.preventDefault();
     setFormInput({
@@ -59,8 +52,8 @@ function SignUp() {
 
   return (
     <>
-      <div className='bg-gray-100 relative flex flex-col justify-center min-h-screen overflow-hidden '>
-        <div className='sm:mx-auto sm:w-full sm:max-w-sm w-full p-6  bg-white rounded-md ring-2 ring-amber-600 lg:max-w-xl'>
+      <div className=' relative flex flex-col justify-center min-h-screen overflow-hidden '>
+        <div className='sm:mx-auto sm:w-full sm:max-w-sm w-full p-6  bg-lemon rounded-md ring-2 ring-black  lg:max-w-xl'>
           <img
             className='mx-auto '
             src={coffeeGif}
@@ -96,7 +89,7 @@ function SignUp() {
                   onChange={(e) =>
                     setFormInput({ ...formInput, firstName: e.target.value })
                   }
-                  className='block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-600 sm:text-sm sm:leading-6'
+                  className='block w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-black ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-600 sm:text-sm sm:leading-6'
                 ></input>
               </div>
               <div className='mb-2'>
@@ -173,7 +166,7 @@ function SignUp() {
             <div className='mb-2'>
               <button
                 onClick={(e) => handleForm(e)}
-                className='mt-8 w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-amber-700 rounded-md hover:bg-amber-600 focus:bg-amber-300'
+                className='mt-8 w-full px-4 py-2 tracking-wide font-semibold transition-colors duration-200 transform bg-btnprimary rounded-md hover:bg-btnhover'
               >
                 Sign Up
               </button>

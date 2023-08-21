@@ -11,8 +11,14 @@ public class Product {
     @Column(nullable = false)
     private String productName;
 
+    private String description;
+
     @Column(nullable = false)
     private double price;
+
+    @Lob
+    @Column(name = "imagedata", length = 1000)
+    private byte[] imageData;
 
     public long getid() {
         return id;
@@ -40,6 +46,22 @@ public class Product {
 
     public Product orElseThrow(Object object) {
         return null;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
     }
 
 }

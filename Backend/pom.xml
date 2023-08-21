@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.1</version>
+		<version>3.1.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
@@ -49,19 +49,38 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+		<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+    <version>1.18.20</version>
+    <scope>provided</scope>
+	</dependency>
+	
+	<dependency>
+    <groupId>org.mapstruct</groupId>
+    <artifactId>mapstruct</artifactId>
+    <version>1.4.2.Final</version>
+</dependency>
+<dependency>
+        <groupId>org.mapstruct</groupId>
+        <artifactId>mapstruct-processor</artifactId>
+        <version>1.4.2.Final</version>
+        <scope>provided</scope>
+    </dependency>
+
+
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-			<version>3.1.1</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
-		<!-- <dependency>
+		<dependency>
 			<groupId>com.auth0</groupId>
 			<artifactId>java-jwt</artifactId>
 			<version>4.4.0</version>
-		</dependency> -->
+		</dependency>
 
 
 		<dependency>
@@ -78,6 +97,18 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>3.1.1</version>
+            <configuration>
+                <source>20</source> <!-- Set the appropriate Java version -->
+                <target>20</target> <!-- Set the appropriate Java version -->
+                <annotationProcessorPaths>
+                    <path>
+                        <groupId>org.mapstruct</groupId>
+                        <artifactId>mapstruct-processor</artifactId>
+                        <version>1.4.2.Final</version>
+                    </path>
+                </annotationProcessorPaths>
+            </configuration>
 			</plugin>
 		</plugins>
 	</build>
