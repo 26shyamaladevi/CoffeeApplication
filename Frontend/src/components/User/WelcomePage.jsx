@@ -5,26 +5,22 @@ import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import axios from "axios";
-import Alert from "./Alert/Alert";
-import CoffeeBanner from "../assets/CoffeeBanner.avif";
-import coffeeGif from ".././assets/coffee_gif.gif";
-import ".././index.css";
-import ProductCard from "./ProductCard";
-import ShoppingCart from "./ShoppingCart";
-import { CartContext } from "./ContextAPI/CartContext";
+import Alert from "../Alert/Alert";
+import CoffeeBanner from "../../assets/CoffeeBanner.avif";
+import "../../../src/index.css";
+import ProductCard from "../ProductCard";
+import ShoppingCart from "../ShoppingCart";
+import { CartContext } from "../ContextAPI/CartContext";
 //import { UserContext } from "./ContextAPI/UserContext";
 import { Carousel, Button } from "@material-tailwind/react";
-import { getAuthToken } from "./AuthLogic/authTokenUtil";
+import { getAuthToken } from "../AuthLogic/authTokenUtil";
 import { useSelector } from "react-redux";
-import { addUserDetails } from "./Store/userSlice";
+import { addUserDetails } from "../Store/userSlice";
 
 const WelcomePage = () => {
-  //const location = useLocation();
-
   const [products, setProducts] = useState([]);
   const [alertMessage, setAlertMessage] = useState(null);
-  //const { isCartVisible } = useContext(CartContext);
-  //const { userDetails } = useContext(UserContext);
+
   const userDetails = useSelector((state) => state.user.payload);
   const isCartVisible = useSelector((state) => state.cart.isCartVisible);
 
@@ -146,8 +142,8 @@ const WelcomePage = () => {
             {isCartVisible && <ShoppingCart />}
           </div>
         </div>
-        <Footer />
       </div>
+      <Footer />
     </>
   );
 };

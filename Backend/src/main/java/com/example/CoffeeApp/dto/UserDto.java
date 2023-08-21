@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.example.CoffeeApp.domains.Role;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,5 +17,6 @@ public class UserDto {
     private String lastName;
     private String emailId;
     private String token;
+    private Role role;
 
 }

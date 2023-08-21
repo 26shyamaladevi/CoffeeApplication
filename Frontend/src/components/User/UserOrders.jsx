@@ -4,11 +4,11 @@ import Order from "./Order";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { getAuthToken } from "./AuthLogic/authTokenUtil";
+import { getAuthToken } from "../AuthLogic/authTokenUtil";
 import { useContext, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { addOrder } from "./Store/cartSlice";
-import { CartContext } from "./ContextAPI/CartContext";
+import { addOrder } from "../Store/cartSlice";
+import { CartContext } from "../ContextAPI/CartContext";
 import {
   Accordion,
   AccordionHeader,

@@ -1,11 +1,12 @@
-import Header from "./Header";
-import { Breadcrumbs, Typography } from "@material-tailwind/react";
+import { Typography } from "@material-tailwind/react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import axios from "axios";
-import { getAuthToken } from "./AuthLogic/authTokenUtil";
-import ProductList from "./DownloadImage";
+import { getAuthToken } from "../AuthLogic/authTokenUtil";
 
 function ProductUpload() {
+  const navigateTo = useNavigate();
   const [state, setState] = useState({
     productName: "",
     price: "",
@@ -64,38 +65,32 @@ function ProductUpload() {
         headers: headers,
       });
       console.log(response);
+      alert(response.data);
     } catch (err) {
-      console.log(err);
+      alert("Please Login in Again");
+      setTimeout(() => {
+        navigateTo("/");
+      }, 1000);
     }
+    setState({
+      productName: "",
+      price: "",
+      description: "",
+      imagedata: "",
+    });
+    setPreviewUrl(null);
   };
   return (
     <>
-      <Header />
-      <div className='max-w-3xl md:mx-auto md:my-auto mx-4 pb-4'>
-        <Breadcrumbs className=' w-auto px-0 py-4 '>
-          <a href='/welcome' className=' opacity-70 pr-1'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='h-4 w-4'
-              viewBox='0 0 20 20'
-              fill='currentColor'
-            >
-              <path d='M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z' />
-            </svg>
-          </a>
-
-          <a href='#' className='pl-1'>
-            ProductsUpload
-          </a>
-        </Breadcrumbs>
+      <div className=' relative max-w-3xl mx-auto  pb-4 '>
         <div>
           <Typography className='font-bold mb-8 lg:text-2xl  text-orange-600'>
-            Manage Products
+            Add New Product
           </Typography>
         </div>
 
-        <form>
-          <div className='space-y-12'>
+        <form className='w-full'>
+          <div className='  space-y-12'>
             <div className='border-b border-gray-900/10 pb-12'>
               <Typography className='flex items-center justify-center font-bold mb-8 lg:text-2xl  text-gray-900'>
                 Product Details
@@ -116,7 +111,7 @@ function ProductUpload() {
                         id='product-name'
                         value={state.productName}
                         autoComplete='given-name'
-                        className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+                        className='font-normal block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                         onChange={handleChange}
                       />
                     </div>
@@ -125,7 +120,7 @@ function ProductUpload() {
                   <div className='sm:col-span-3'>
                     <label
                       htmlFor='product-price'
-                      className='block text-base font-semibold leading-6 text-gray-900'
+                      className=' block text-base font-semibold leading-6 text-gray-900'
                     >
                       Product Price
                     </label>
@@ -136,7 +131,7 @@ function ProductUpload() {
                         id='price'
                         value={state.price}
                         autoComplete='family-name'
-                        className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 appearance-none'
+                        className='font-normal block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 appearance-none'
                         onChange={handleChange}
                       />
                     </div>
@@ -158,7 +153,7 @@ function ProductUpload() {
                       name='description'
                       rows='3'
                       value={state.description}
-                      className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+                      className='font-normal block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                       onChange={handleChange}
                     ></textarea>
                   </div>

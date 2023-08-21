@@ -1,9 +1,8 @@
-import Header from "./Header";
+import Header from "./User/Header";
 import { useContext, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Button, Breadcrumbs } from "@material-tailwind/react";
-import { CartContext } from "./ContextAPI/CartContext";
-import { UserContext } from "./ContextAPI/UserContext";
+
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";

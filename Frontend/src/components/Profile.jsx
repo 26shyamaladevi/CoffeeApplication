@@ -1,4 +1,4 @@
-import Header from "./Header";
+import Header from "./User/Header";
 import {
   Breadcrumbs,
   Typography,
@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 function Profile() {
   const userDetails = useSelector((state) => state.user.payload);
+  const role = userDetails.role.rname;
   const navigateTo = useNavigate();
   const [isEdit, setisEdit] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
@@ -108,24 +109,28 @@ function Profile() {
 
   return (
     <>
-      <Header />
+      {role === "USER" ? <Header /> : <></>}
       <div className='max-w-3xl md:mx-auto md:my-auto mx-4 pb-4'>
-        <Breadcrumbs className=' w-auto px-0 py-4 '>
-          <a href='/welcome' className=' opacity-70 pr-1'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='h-4 w-4'
-              viewBox='0 0 20 20'
-              fill='currentColor'
-            >
-              <path d='M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z' />
-            </svg>
-          </a>
+        {role === "USER" ? (
+          <Breadcrumbs className=' w-auto px-0 py-4 '>
+            <a href='/welcome' className=' opacity-70 pr-1'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                className='h-4 w-4'
+                viewBox='0 0 20 20'
+                fill='currentColor'
+              >
+                <path d='M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z' />
+              </svg>
+            </a>
 
-          <a href='#' className='pl-1'>
-            Profile
-          </a>
-        </Breadcrumbs>
+            <a href='#' className='pl-1'>
+              Profile
+            </a>
+          </Breadcrumbs>
+        ) : (
+          <></>
+        )}
         <div>
           <Typography className='font-bold mb-8 lg:text-2xl  text-orange-600'>
             Manage Your Profile

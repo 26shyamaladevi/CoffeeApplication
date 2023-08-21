@@ -1,4 +1,4 @@
-import CoffeeLogo from "../assets/CoffeeLogo.png";
+import CoffeeLogo from "../../assets/Coffee.png";
 import html2pdf from "html2pdf.js/dist/html2pdf.min";
 
 const downloadPDF = (Id) => {

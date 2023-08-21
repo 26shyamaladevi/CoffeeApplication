@@ -55,6 +55,7 @@ public class WebConfig {
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .authorizeHttpRequests((requests) -> requests
                                                 .requestMatchers(HttpMethod.POST, "/log-in", "/users/add").permitAll()
+                                                // .requestMatchers(HttpMethod.GET, "/admin").hasRole("ADMIN")
                                                 .anyRequest().authenticated()
 
                                 )
