@@ -71,12 +71,12 @@ const WelcomePage = () => {
       <div className=' flex   h-screen flex-col '>
         <div
           // className='  w-full sm:bg-cover bg-no-repeat sm:bg-center mt-2 object-none text-white pt-8 pb-8 md:pt-48 md:pb-56  shadow-inner shadow-black grid grid-cols-8 max-w-5xl mx-8 rounded-xl'
-          className=' sm:bg-cover bg-no-repeat sm:bg-center mt-2 mb-2 object-none text-white sm:pt-48 sm:pb-56   shadow-inner shadow-black grid grid-cols-6 max-w-8xl mx-8 mr-8 rounded-xl'
+          className=' sm:bg-cover bg-no-repeat sm:bg-center mt-2 mb-2 object-none text-white  sm:pt-48 sm:pb-56   shadow-inner shadow-black grid grid-cols-6 max-w-8xl mx-8 mr-8 rounded-xl'
           style={{
             backgroundImage: `url(${CoffeeBanner})`,
           }}
         >
-          <div className='w-full px-20 pr-16 md:px-32 sm:pr-40 col-span-4'>
+          <div className='w-full px-20 pr-16 md:px-32 sm:pr-40 col-span-4 z-30 '>
             <h1 className=' md:text-3xl font-extrabold'>
               Welcome{" "}
               <b>
@@ -102,7 +102,7 @@ const WelcomePage = () => {
               />
             )}
 
-            <div className='mt-8 flex align-items-center justify-center text-3xl font-bold text-orange-600  capitalize'>
+            <div className='mt-8 flex align-items-center justify-center text-3xl font-bold text-orange-600  capitalize z-30'>
               Our Hot Classics
             </div>
 

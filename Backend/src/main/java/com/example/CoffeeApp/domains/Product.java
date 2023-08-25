@@ -17,7 +17,7 @@ public class Product {
     private double price;
 
     @Lob
-    @Column(name = "imagedata", length = 1000)
+    @Column(name = "imagedata", length = 1048576)
     private byte[] imageData;
 
     public long getid() {

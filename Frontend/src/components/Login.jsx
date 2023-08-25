@@ -8,6 +8,7 @@ import Alert from "./Alert/Alert";
 
 import { useDispatch } from "react-redux";
 import { addUserDetails } from "./Store/userSlice";
+import { useSelector } from "react-redux/es/hooks/useSelector";
 
 function Login() {
   const [formInput, setFormInput] = useState({
@@ -55,7 +56,16 @@ function Login() {
       setAuthToken(response.data.token);
       setTimeout(() => {
         handleAddUser(response.data);
-        navigateTo("/welcome");
+        const role = response.data.role.rname;
+        console.log("Role" + role);
+        //Navigate to Admin if the role is ADMIN
+        if (role === "ADMIN") {
+          navigateTo("/admin/dashboard");
+        }
+        //Navigate to Welcome Page if User
+        else {
+          navigateTo("/welcome");
+        }
       }, 2000);
     } catch (error) {
       // Handle login error
