@@ -21,7 +21,7 @@ const ProtectedRoutes = () => {
   const userDetails = useSelector((state) => state.user.payload);
   const userRole = userDetails.role.rname;
 
-  const isAdminDashboard = location.pathname === "/admin/dashboard";
+  const isAdminDashboard = location.pathname.indexOf("/admin/dashboard") !== -1;
   const isUnAuthorized = location.pathname === "/unauthorized";
 
   //If user tries to acess admin page
@@ -32,7 +32,7 @@ const ProtectedRoutes = () => {
 
   //If admin tries to acess other than admin page
   else if (!isAdminDashboard && !isUnAuthorized && userRole === "ADMIN") {
-    console.log(location.pathname + " " + userRole);
+    console.log(isAdminDashboard + " " + userRole);
 
     return <Navigate to='/unauthorized' />;
   }

@@ -29,6 +29,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               <Route element={<UserOrders />} path='/orders'></Route>
               <Route element={<CheckOut />} path='/checkout'></Route>
               <Route element={<Admin />} path='/admin/dashboard' />
+
               <Route element={<UnAuthorized />} path='/unauthorized' />
             </Route>
             <Route path='/' element={<Login />} />

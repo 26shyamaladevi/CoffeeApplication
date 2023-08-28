@@ -5,21 +5,35 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getAuthToken } from "../AuthLogic/authTokenUtil";
 
-function ProductUpload() {
+function ProductUpload({ action, onCancel, onSubmit, productDetails }) {
   const navigateTo = useNavigate();
-  const [state, setState] = useState({
+  const initialState = {
     productName: "",
     price: "",
     description: "",
     imagedata: null,
-  });
+  };
+
+  const [state, setState] = useState(
+    action === "upload"
+      ? initialState
+      : {
+          productName: productDetails.pName,
+          price: productDetails.price,
+          description: productDetails.description,
+          imagedata: productDetails.imagedata,
+        }
+  );
 
   const [file, setFile] = useState(null);
 
-  const [previewUrl, setPreviewUrl] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(
+    action === "upload" ? null : productDetails.url
+  );
 
   const handleChange = (event) => {
     const value = event.target.value;
+    console.log(value);
     setState({
       ...state,
       [event.target.name]: value,
@@ -47,6 +61,7 @@ function ProductUpload() {
       imagedata: "",
     });
   };
+
   const handleSave = async (event) => {
     event.preventDefault();
     console.log(state);
@@ -54,6 +69,7 @@ function ProductUpload() {
     formData.append("productName", state.productName);
     formData.append("price", state.price);
     formData.append("description", state.description);
+
     formData.append("image", file);
     try {
       const token = getAuthToken();
@@ -80,14 +96,67 @@ function ProductUpload() {
     });
     setPreviewUrl(null);
   };
+
+  const handleSaveChanges = async (event) => {
+    event.preventDefault();
+    console.log("**********************", state);
+    const formData = new FormData();
+    formData.append("productName", state.productName);
+    formData.append("price", state.price);
+    formData.append("description", state.description);
+    console.log("**********************", file);
+
+    formData.append("image", file);
+    console.log("Logging FormData contents:");
+    for (const pair of formData.entries()) {
+      console.log(pair[0], pair[1]);
+    }
+    try {
+      const token = getAuthToken();
+      let headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      };
+      const response = await axios.put(
+        `/api/products/update/${productDetails.id}`,
+        formData,
+        {
+          headers: headers,
+        }
+      );
+      console.log(response);
+      alert(response.data);
+      onSubmit();
+      // Refresh the window
+      window.location.reload();
+    } catch (err) {
+      alert("Please Login in Again");
+      console.log(err);
+      setTimeout(() => {
+        navigateTo("/");
+      }, 1000);
+    }
+    setState({
+      productName: "",
+      price: "",
+      description: "",
+      imagedata: "",
+    });
+    setPreviewUrl(null);
+  };
+
   return (
     <>
       <div className=' relative max-w-3xl mx-auto  pb-4 '>
-        <div>
-          <Typography className='font-bold mb-8 lg:text-2xl  text-orange-600'>
-            Add New Product
-          </Typography>
-        </div>
+        {action === "upload" ? (
+          <div>
+            <Typography className='font-bold mb-8 lg:text-2xl  text-orange-600'>
+              Add New Product
+            </Typography>
+          </div>
+        ) : (
+          <></>
+        )}
 
         <form className='w-full'>
           <div className='  space-y-12'>
@@ -113,6 +182,8 @@ function ProductUpload() {
                         autoComplete='given-name'
                         className='font-normal block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                         onChange={handleChange}
+                        readOnly={action !== "upload"}
+                        disabled={action !== "upload"}
                       />
                     </div>
                   </div>
@@ -239,20 +310,41 @@ function ProductUpload() {
             </div>
           </div>
           <div className='mt-6 flex items-center justify-end gap-x-6'>
-            <button
-              type='button'
-              className='leading-6 text-gray-900 rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-100'
-              onClick={handleCancel}
-            >
-              Cancel
-            </button>
-            <button
-              type='submit'
-              className='rounded-md bg-btnprimary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-btnprimary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 '
-              onClick={handleSave}
-            >
-              Save
-            </button>
+            {action === "upload" ? (
+              <>
+                <button
+                  type='button'
+                  className='leading-6 text-gray-900 rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-100'
+                  onClick={handleCancel}
+                >
+                  Cancel
+                </button>
+                <button
+                  type='submit'
+                  className='rounded-md bg-amber/100 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-btnprimary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 '
+                  onClick={handleSave}
+                >
+                  Save
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  type='cancel'
+                  className='rounded-md bg-amber/100 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-btnprimary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 '
+                  onClick={onCancel}
+                >
+                  Cancel Changes
+                </button>
+                <button
+                  type='submit'
+                  className='rounded-md bg-amber/100 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-btnprimary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 '
+                  onClick={handleSaveChanges}
+                >
+                  Save Changes
+                </button>
+              </>
+            )}
           </div>
         </form>
       </div>
