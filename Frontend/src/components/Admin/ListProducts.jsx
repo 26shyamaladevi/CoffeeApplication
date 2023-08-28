@@ -5,8 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { getAuthToken } from "../AuthLogic/authTokenUtil";
 import { useEffect } from "react";
 import axios from "axios";
-import ProductCard from "../ProductCard";
+import Alert from "@material-tailwind/react";
+import ProductCardAdmin from "./ProductCardAdmin";
+
 function ListProducts() {
+  const [alertMessage, setAlertMessage] = useState(null);
+
   const navigateTo = useNavigate();
 
   const [products, setProducts] = useState([]);
@@ -63,17 +67,24 @@ function ListProducts() {
 
         <section className=' flex '>
           <div className='grid  grid-cols-1 md:grid-cols-2   rounded-lg  mt-2 mb-4  '>
-            {products.map(
-              ({ id, productName, price, description, imageData }) => (
-                <ProductCard
-                  id={id}
-                  quantity={1} // Set the initial quantity to 1
-                  key={id}
-                  pName={productName}
-                  price={price}
-                  description={description}
-                  url={`data:image/png;base64,${imageData}`}
-                ></ProductCard>
+            {products.length === 0 ? (
+              <div className=' font-normal'>
+                Oops there is no products available, please add new products to
+                the list.
+              </div>
+            ) : (
+              products.map(
+                ({ id, productName, price, description, imageData }) => (
+                  <ProductCardAdmin
+                    id={id}
+                    quantity={1} // Set the initial quantity to 1
+                    key={id}
+                    pName={productName}
+                    price={price}
+                    description={description}
+                    url={`data:image/png;base64,${imageData}`}
+                  ></ProductCardAdmin>
+                )
               )
             )}
           </div>

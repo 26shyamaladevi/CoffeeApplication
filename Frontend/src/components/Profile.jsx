@@ -136,7 +136,7 @@ function Profile() {
             Manage Your Profile
           </Typography>
           <div>
-            <div className='grid min-h-[140px] w-full overflow-x-scroll rounded-lg p-6 lg:overflow-visible place-items-center bg-gray-100 '>
+            <div className='grid min-h-[140px] w-full overflow-x-scroll rounded-lg p-6 lg:overflow-visible place-items-center bg-gray-300/50 '>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 viewBox='0 0 24 24'
@@ -311,7 +311,7 @@ function Profile() {
                       </dt>
                       <dd className=' mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
                         <Button
-                          className='text-white bg-red-500 hover:bg-red-500/80 normal-case'
+                          className='text-white bg-red-500  hover:bg-red-500/80 normal-case'
                           onClick={handleDeleteMyAcc}
                         >
                           Yes, delete my account

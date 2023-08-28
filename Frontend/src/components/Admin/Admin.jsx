@@ -31,7 +31,7 @@ import Profile from "../Profile";
 
 const tabs = [
   { label: "Product", component: <ListProducts /> },
-  { label: "Add Products", component: <ProductUpload /> },
+  { label: "Add Products", component: <ProductUpload action='upload' /> },
   { label: "Profile", component: <Profile /> },
 
   //{ label: "Edit Products", component: <EditProducts /> },

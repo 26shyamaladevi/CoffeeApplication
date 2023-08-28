@@ -37,11 +37,12 @@ public class ProductController {
 
     }
 
-    @PutMapping("/products/update")
-    public ResponseEntity<String> upadateProducts(@RequestBody Product product) {
-        boolean isId = productservice.getid(product.getid());
+    @PutMapping("/products/update/{id}")
+    public ResponseEntity<String> upadateProducts(@ModelAttribute Product product, @PathVariable Long id,
+            @RequestParam(value = "image", required = false) MultipartFile image) throws IOException {
+        boolean isId = productservice.getid(id);
         if (isId) {
-            String msg = productservice.updateProduct(product);
+            String msg = productservice.updateProduct(product, image);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(msg);
 
         } else {

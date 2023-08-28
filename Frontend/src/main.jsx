@@ -14,8 +14,8 @@ import AppProvider from "./components/ContextAPI/AppProvider";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./components/Store/store";
-import ProductUpload from "./components/Admin/ProductUpload";
 import Admin from "./components/Admin/Admin";
+import UnAuthorized from "./components/UnAuthorized";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
@@ -23,17 +23,17 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <AppProvider>
         <BrowserRouter>
           <Routes>
-            <Route path='/' element={<Login />} />
-
-            <Route path='/signUp' element={<SignUp />} />
-            <Route path='/admin' element={<Admin />} />
-            <Route path='/admin/upload' element={<ProductUpload />} />
             <Route element={<ProtectedRoutes />}>
               <Route element={<WelcomePage />} path='/welcome' exact />
               <Route element={<Profile />} path='/profile'></Route>
               <Route element={<UserOrders />} path='/orders'></Route>
               <Route element={<CheckOut />} path='/checkout'></Route>
+              <Route element={<Admin />} path='/admin/dashboard' />
+
+              <Route element={<UnAuthorized />} path='/unauthorized' />
             </Route>
+            <Route path='/' element={<Login />} />
+            <Route path='/signUp' element={<SignUp />} />
           </Routes>
         </BrowserRouter>
       </AppProvider>

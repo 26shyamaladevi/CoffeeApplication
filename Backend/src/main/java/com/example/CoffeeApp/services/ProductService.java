@@ -37,15 +37,46 @@ public class ProductService {
     }
 
     // Updates an existing product in the repository
-    public String updateProduct(Product p) {
-        productrepo.save(p);
-        return "Product" + p.getproductName() + " " + "with id:" + " " + p.getid() + " " + "is updated sucessfully.";
+    public String updateProduct(Product product, MultipartFile imageFile) {
+        try {
+            // Optional: Validate product existence by ID
+            Optional<Product> existingProductOptional = productrepo.findById(product.getid());
+            if (existingProductOptional.isEmpty()) {
+                return "Product with ID " + product.getid() + " not found.";
+            }
+
+            System.out.println("Inside Update------");
+
+            Product existingProduct = existingProductOptional.get();
+
+            // Set updated attributes
+            existingProduct.setproductName(product.getproductName());
+            existingProduct.setprice(product.getprice());
+            existingProduct.setDescription(product.getDescription());
+
+            // Update image data if a new image is provided
+            if (imageFile != null && !imageFile.isEmpty()) {
+                System.out.println("Inside Imageee");
+                existingProduct.setImageData(imageFile.getBytes());
+            }
+
+            // Save the updated product
+            productrepo.save(existingProduct);
+
+            return "Product " + existingProduct.getproductName() + " with ID " + existingProduct.getid()
+                    + " is updated successfully.";
+        } catch (IOException e) {
+            // Handle IO exception
+            return "Error updating product: " + e.getMessage();
+        }
     }
 
     // Deletes a product from the repository based on its ID
     public boolean deleteProduct(Long id) {
+
         if (productrepo.existsById(id)) {
             productrepo.deleteById(id);
+
             return true;
         } else {
             return false;

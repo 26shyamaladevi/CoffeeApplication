@@ -44,7 +44,7 @@ function Header() {
 
   return (
     <header className='bg-yellow-600/75' ç>
-      <nav className='flex items-center justify-between flex-wrap  p-6 pb-2 border-b-2 '>
+      <nav className='z-20 flex items-center justify-between flex-wrap  p-6 pb-2 border-b-2 '>
         <div className='flex items-center flex-shrink-0  mr-6'>
           <img
             src={CoffeeLogo}
@@ -98,7 +98,7 @@ function Header() {
           <div>
             <a
               href='#'
-              className='hidden md:inline-block  font-md font-semibold  text-sm px-4 py-2 leading-none border rounded font-base  border-black hover:border-transparent hover:bg-btnprimary hover:text-white hover:scale-110 mt-4 lg:mt-0'
+              className='z-20 hidden md:inline-block  font-md font-semibold  text-sm px-4 py-2 leading-none border rounded font-base  border-black hover:border-transparent hover:bg-btnprimary hover:text-white hover:scale-110 mt-4 lg:mt-0'
               onClick={handleLogout}
             >
               Logout

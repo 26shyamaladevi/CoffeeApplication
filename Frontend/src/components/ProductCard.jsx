@@ -63,12 +63,12 @@ export default function ProductCard(props) {
       <CardHeader
         shadow={false}
         floated={false}
-        className='border-4 border-white '
+        className='flex justify-center items-center border-4 border-white h-60 '
       >
         <img
           src={props.url}
           alt={props.pName}
-          className=' object-cover w-72 h-72'
+          className=' object-cover max-w-full max-h-full'
         ></img>
       </CardHeader>
 
