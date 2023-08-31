@@ -1,9 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateCartItemQuantity } from "../Store/cartSlice";
 
 const QuantitySelector = (props) => {
-  //const { cartItems, updateCartItemQuantity } = useContext(CartContext);
   const cartItems = useSelector((state) => state.cart.cartItems);
   const dispatch = useDispatch();
 
@@ -41,8 +40,6 @@ const QuantitySelector = (props) => {
   function handleChange(e) {
     const newQuantity = parseInt(e.target.value);
     dispatch(updateCartItemQuantity({ itemId: props.id, newQuantity }));
-
-    //dispatch(updateCartItemQuantity(props.itemId, e.target.value));
   }
 
   return (

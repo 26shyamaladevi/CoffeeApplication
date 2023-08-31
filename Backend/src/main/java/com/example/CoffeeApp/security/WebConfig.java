@@ -38,8 +38,7 @@ public class WebConfig {
          */
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-                // UrlBasedCorsConfigurationSource src = new
-                // UrlBasedCorsConfigurationSource(null);
+
                 CorsConfiguration corsConfiguration = new CorsConfiguration();
                 corsConfiguration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
                 corsConfiguration.setAllowedOrigins(List.of("http://localhost:5173"));
@@ -54,11 +53,10 @@ public class WebConfig {
                                                 .authenticationEntryPoint(userAuthenticationEntryPoint))
                                 .cors(Customizer.withDefaults())
                                 .addFilterBefore(new JwtAuthFilter(userAuthProvider), BasicAuthenticationFilter.class)
-                                .csrf((csrf) -> csrf.disable())
-                                // .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                                .sessionManagement((session) -> session
+                                .csrf(csrf -> csrf.disable())
+                                .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                                .authorizeHttpRequests((requests) -> requests
+                                .authorizeHttpRequests(requests -> requests
                                                 .requestMatchers(HttpMethod.POST, "/log-in", "/users/add").permitAll()
                                                 .requestMatchers(HttpMethod.GET, "/products")
                                                 .hasAnyAuthority("ADMIN", "USER")

@@ -1,12 +1,10 @@
 import Header from "./Header";
-import Footer from "./Footer";
 import Order from "./Order";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getAuthToken } from "../AuthLogic/authTokenUtil";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { addOrder } from "../Store/cartSlice";
 import {
   Accordion,
@@ -15,7 +13,7 @@ import {
   Breadcrumbs,
   Button,
 } from "@material-tailwind/react";
-import { useSelector } from "react-redux";
+
 const CUSTOM_ANIMATION = {
   mount: { scale: 1 },
   unmount: { scale: 0.9 },

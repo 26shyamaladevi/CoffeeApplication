@@ -3,7 +3,6 @@ import QuantitySelector from "./Buttons/QuantitySelector";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  toggleCartVisibility,
   removeItemFromCart,
   clearCart,
   setCartVisibility,
@@ -15,12 +14,10 @@ import {
   List,
   ListItem,
   ListItemSuffix,
-  Chip,
 } from "@material-tailwind/react";
 import { TrashIcon } from "@heroicons/react/24/solid";
 
 export default function ShoppingCart() {
-  //const { cartItems, toggleCartVisibility, removeItemFromCart, clearCart } =useContext(CartContext);
   const cartItems = useSelector((state) => state.cart.cartItems);
   const [orderTotal, setOrderTotal] = useState(0);
   const [istoggleMinimize, setIstoggleMinimize] = useState(false);

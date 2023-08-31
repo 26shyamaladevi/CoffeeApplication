@@ -36,13 +36,11 @@ public class RoleService {
             return Optional.of(user_role);
         } else {
             long uniqueId = role.getRName().hashCode();
-            System.out.println("Role: " + role.getRName());
             if (!rolerepo.existsById(uniqueId)) {
                 Role new_role = new Role();
                 new_role.setR_id(uniqueId);
                 new_role.setRName(role.getRName());
                 rolerepo.save(new_role);
-                // System.out.println("saved");
                 return Optional.of(new_role);
             } else {
                 return rolerepo.findById(uniqueId);

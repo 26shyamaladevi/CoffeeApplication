@@ -7,8 +7,7 @@ import {
   Button,
   ButtonGroup,
 } from "@material-tailwind/react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { setCartVisibility, addToCart } from "./Store/cartSlice";
 import { getAuthToken } from "./AuthLogic/authTokenUtil";
 import axios from "axios";

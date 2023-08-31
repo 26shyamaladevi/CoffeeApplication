@@ -12,17 +12,12 @@ import {
   List,
   ListItem,
   ListItemPrefix,
-  ListItemSuffix,
-  Chip,
 } from "@material-tailwind/react";
 import {
-  ShoppingBagIcon,
   UserCircleIcon,
-  InboxIcon,
   PowerIcon,
   PlusCircleIcon,
   PencilSquareIcon,
-  TrashIcon,
 } from "@heroicons/react/24/solid";
 
 import ProductUpload from "./ProductUpload";
@@ -33,9 +28,6 @@ const tabs = [
   { label: "Product", component: <ListProducts /> },
   { label: "Add Products", component: <ProductUpload action='upload' /> },
   { label: "Profile", component: <Profile /> },
-
-  //{ label: "Edit Products", component: <EditProducts /> },
-  // Add more tabs as needed
 ];
 function Admin() {
   const userDetails = useSelector((state) => state.user.payload);
@@ -43,20 +35,6 @@ function Admin() {
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
 
-  const handleAdmin = async (event) => {
-    try {
-      const token = getAuthToken();
-      let headers = {
-        Authorization: `Bearer ${token}`,
-      };
-      const response = await axios.get(`api/admin`, {
-        headers: headers,
-      });
-      console.log(response);
-    } catch (err) {
-      console.log(err);
-    }
-  };
   const handleLogout = async () => {
     const token = getAuthToken();
     let headers = {

@@ -45,8 +45,6 @@ public class ProductService {
                 return "Product with ID " + product.getid() + " not found.";
             }
 
-            System.out.println("Inside Update------");
-
             Product existingProduct = existingProductOptional.get();
 
             // Set updated attributes
@@ -56,7 +54,6 @@ public class ProductService {
 
             // Update image data if a new image is provided
             if (imageFile != null && !imageFile.isEmpty()) {
-                System.out.println("Inside Imageee");
                 existingProduct.setImageData(imageFile.getBytes());
             }
 

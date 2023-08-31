@@ -73,7 +73,8 @@ public class Orders {
     public void setOrderItems(List<OrderItems> orderItems) {
         this.orderItems = orderItems;
         for (OrderItems item : orderItems) {
-            item.setOrders(this); // Set the bidirectional relationship
+            // Set the bidirectional relationship
+            item.setOrders(this);
         }
     }
 
@@ -111,7 +112,6 @@ public class Orders {
         sb.append("Orders{");
         sb.append("orderId=").append(orderId);
         sb.append(", customer=").append(customer);
-        // sb.append(", customerEmailId='").append(customerEmailId).append('\'');
         sb.append(", orderItems=").append(orderItems);
         sb.append(", totalPrice=").append(totalPrice);
         sb.append(", orderDate=").append(orderDate);

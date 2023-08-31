@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import coffeeGif from ".././assets/coffee_gif.gif";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -15,7 +15,6 @@ function Login() {
   });
 
   const [alertMessage, setAlertMessage] = useState(null);
-  //const { userDetails, addUserDetails } = useContext(UserContext);
 
   const dispatch = useDispatch();
 
