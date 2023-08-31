@@ -1,6 +1,4 @@
-import { useState, useContext, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { CartContext } from "./ContextAPI/CartContext";
+import { useState, useEffect } from "react";
 import QuantitySelector from "./Buttons/QuantitySelector";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";

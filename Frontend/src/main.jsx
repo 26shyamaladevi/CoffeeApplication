@@ -10,7 +10,6 @@ import CheckOut from "./components/CheckOut";
 import UserOrders from "./components/User/UserOrders";
 import Profile from "./components/Profile";
 
-import AppProvider from "./components/ContextAPI/AppProvider";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./components/Store/store";
@@ -20,23 +19,21 @@ import UnAuthorized from "./components/UnAuthorized";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <AppProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route element={<ProtectedRoutes />}>
-              <Route element={<WelcomePage />} path='/welcome' exact />
-              <Route element={<Profile />} path='/profile'></Route>
-              <Route element={<UserOrders />} path='/orders'></Route>
-              <Route element={<CheckOut />} path='/checkout'></Route>
-              <Route element={<Admin />} path='/admin/dashboard' />
+      <BrowserRouter>
+        <Routes>
+          <Route element={<ProtectedRoutes />}>
+            <Route element={<WelcomePage />} path='/welcome' exact />
+            <Route element={<Profile />} path='/profile'></Route>
+            <Route element={<UserOrders />} path='/orders'></Route>
+            <Route element={<CheckOut />} path='/checkout'></Route>
+            <Route element={<Admin />} path='/admin/dashboard' />
 
-              <Route element={<UnAuthorized />} path='/unauthorized' />
-            </Route>
-            <Route path='/' element={<Login />} />
-            <Route path='/signUp' element={<SignUp />} />
-          </Routes>
-        </BrowserRouter>
-      </AppProvider>
+            <Route element={<UnAuthorized />} path='/unauthorized' />
+          </Route>
+          <Route path='/' element={<Login />} />
+          <Route path='/signUp' element={<SignUp />} />
+        </Routes>
+      </BrowserRouter>
     </PersistGate>
   </Provider>
 );

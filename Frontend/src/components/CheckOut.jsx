@@ -1,5 +1,5 @@
 import Header from "./User/Header";
-import { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Button, Breadcrumbs } from "@material-tailwind/react";
 
@@ -12,8 +12,7 @@ import { useSelector } from "react-redux";
 function CheckOut() {
   const location = useLocation();
   console.log(location);
-  //const { cartItems } = useContext(CartContext);
-  //const { userDetails } = useContext(UserContext);
+
   const cartItems = useSelector((state) => state.cart.cartItems);
   const userDetails = useSelector((state) => state.user.payload);
   const [paymentMethods, setPaymentMethods] = useState([]);

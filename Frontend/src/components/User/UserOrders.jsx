@@ -5,10 +5,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getAuthToken } from "../AuthLogic/authTokenUtil";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addOrder } from "../Store/cartSlice";
-import { CartContext } from "../ContextAPI/CartContext";
 import {
   Accordion,
   AccordionHeader,
@@ -45,6 +44,8 @@ function Icon({ id, open }) {
 
 function UserOrders() {
   const [open, setOpen] = useState(0);
+  const [latestFetchedOrderId, setLatestFetchedOrderId] = useState(null);
+
   const order = useSelector((state) => state.cart.order);
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
@@ -56,10 +57,8 @@ function UserOrders() {
     };
     try {
       const response = await axios.get("api/orders", { headers: headers });
-      //console.log(res);
-      // Function to structure the state as per the desired format
 
-      console.log(response);
+      // Function to structure the state as per the desired format
       const structuredState = createState(response.data);
       console.log("StrOrder", structuredState);
 
