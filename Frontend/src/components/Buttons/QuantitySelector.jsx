@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import { CartContext } from "../ContextAPI/CartContext";
 import { useSelector, useDispatch } from "react-redux";
 import { updateCartItemQuantity } from "../Store/cartSlice";
 

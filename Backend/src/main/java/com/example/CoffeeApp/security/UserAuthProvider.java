@@ -3,13 +3,15 @@ package com.example.CoffeeApp.security;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
-
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +22,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
+import com.example.CoffeeApp.domains.Role;
 import com.example.CoffeeApp.dto.UserDto;
 import com.example.CoffeeApp.services.UserService;
 
@@ -61,6 +64,7 @@ public class UserAuthProvider {
         DecodedJWT decoded = verifier.verify(token);
         String login = decoded.getSubject();
         UserDto user = userService.findByLogin(login);
+
         return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
 
     }

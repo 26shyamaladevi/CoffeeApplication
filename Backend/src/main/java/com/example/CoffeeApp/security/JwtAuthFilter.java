@@ -1,11 +1,20 @@
 package com.example.CoffeeApp.security;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.example.CoffeeApp.domains.Role;
+import com.example.CoffeeApp.domains.User;
+import com.example.CoffeeApp.dto.UserDto;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,14 +38,31 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             if (elements.length == 2 && "Bearer".equals(elements[0])) {
                 try {
-                    SecurityContextHolder.getContext()
-                            .setAuthentication((Authentication) userAuthProvider.validateToken(elements[1]));
+                    Authentication authentication = userAuthProvider.validateToken(elements[1]);
+                    System.out.print("***********authen" + " " + authentication);
+
+                    if (authentication != null && authentication.isAuthenticated()) {
+                        UserDto user = (UserDto) authentication.getPrincipal();
+                        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+                        Role role = user.getRole();
+                        authorities.add(new SimpleGrantedAuthority(role.getRName()));
+                        System.out.println("***********" + " " + authorities);
+                        UsernamePasswordAuthenticationToken updatedAuthentication = new UsernamePasswordAuthenticationToken(
+                                user, null, authorities);
+                        updatedAuthentication.setDetails(authentication.getDetails());
+                        SecurityContextHolder.getContext().setAuthentication(updatedAuthentication);
+                    }
+
+                    // SecurityContextHolder.getContext()
+                    // .setAuthentication((Authentication)
+                    // userAuthProvider.validateToken(elements[1]));
                 } catch (RuntimeException e) {
                     SecurityContextHolder.clearContext();
                     throw e;
                 }
             }
         }
+
         filterChain.doFilter(request, response);
     }
 

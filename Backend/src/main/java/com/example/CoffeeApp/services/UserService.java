@@ -99,6 +99,9 @@ public class UserService {
     public User loadUserByEmail(String email) {
 
         User user = userrepo.findByEmailId(email);
+        if (user != null) {
+            user.setRole(user.getRole());
+        }
         return user;
     }
 

@@ -31,6 +31,11 @@ public class WebConfig {
         private final UserAuthenticationEntryPoint userAuthenticationEntryPoint;
         private final UserAuthProvider userAuthProvider;
 
+        /**
+         * @param http
+         * @return
+         * @throws Exception
+         */
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 // UrlBasedCorsConfigurationSource src = new
@@ -55,7 +60,9 @@ public class WebConfig {
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .authorizeHttpRequests((requests) -> requests
                                                 .requestMatchers(HttpMethod.POST, "/log-in", "/users/add").permitAll()
-                                                // .requestMatchers(HttpMethod.GET, "/admin").hasRole("ADMIN")
+                                                .requestMatchers(HttpMethod.GET, "/products")
+                                                .hasAnyAuthority("ADMIN", "USER")
+                                                .requestMatchers("/products/**").hasAuthority("ADMIN")
                                                 .anyRequest().authenticated()
 
                                 )

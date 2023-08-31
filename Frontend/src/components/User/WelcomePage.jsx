@@ -1,6 +1,5 @@
 import React from "react";
-import { useEffect, useState, useContext } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -10,12 +9,8 @@ import CoffeeBanner from "../../assets/CoffeeBanner.avif";
 import "../../../src/index.css";
 import ProductCard from "../ProductCard";
 import ShoppingCart from "../ShoppingCart";
-import { CartContext } from "../ContextAPI/CartContext";
-//import { UserContext } from "./ContextAPI/UserContext";
-import { Carousel, Button } from "@material-tailwind/react";
 import { getAuthToken } from "../AuthLogic/authTokenUtil";
 import { useSelector } from "react-redux";
-import { addUserDetails } from "../Store/userSlice";
 
 const WelcomePage = () => {
   const [products, setProducts] = useState([]);
@@ -70,7 +65,6 @@ const WelcomePage = () => {
       <Header />
       <div className=' flex   h-screen flex-col '>
         <div
-          // className='  w-full sm:bg-cover bg-no-repeat sm:bg-center mt-2 object-none text-white pt-8 pb-8 md:pt-48 md:pb-56  shadow-inner shadow-black grid grid-cols-8 max-w-5xl mx-8 rounded-xl'
           className=' sm:bg-cover bg-no-repeat sm:bg-center mt-2 mb-2 object-none text-white  sm:pt-48 sm:pb-56   shadow-inner shadow-black grid grid-cols-6 max-w-8xl mx-8 mr-8 rounded-xl'
           style={{
             backgroundImage: `url(${CoffeeBanner})`,

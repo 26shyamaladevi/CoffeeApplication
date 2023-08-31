@@ -3,12 +3,10 @@ import coffeeGif from ".././assets/coffee_gif.gif";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getAuthToken, setAuthToken } from "./AuthLogic/authTokenUtil";
-import { UserContext } from "./ContextAPI/UserContext";
 import Alert from "./Alert/Alert";
 
 import { useDispatch } from "react-redux";
 import { addUserDetails } from "./Store/userSlice";
-import { useSelector } from "react-redux/es/hooks/useSelector";
 
 function Login() {
   const [formInput, setFormInput] = useState({

@@ -1,7 +1,6 @@
 import {
   Card,
   CardHeader,
-  CardContent,
   CardBody,
   CardFooter,
   Typography,
