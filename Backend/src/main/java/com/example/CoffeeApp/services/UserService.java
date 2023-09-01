@@ -65,13 +65,13 @@ public class UserService {
         if (user.getRole() != null && user.getRole().getRName() != null) {
             Optional<Role> role = roleService.addRoles(user.getRole());
 
-            User new_user = new User();
-            new_user.setEmailId(user.getEmailId());
-            new_user.setFirstName(user.getFirstName());
-            new_user.setLastName(user.getLastName());
-            new_user.setPassword(passwordEncoder.encode(user.getPassword()));
-            new_user.setRole(role.orElse(null));
-            userrepo.save(new_user);
+            User newUser = new User();
+            newUser.setEmailId(user.getEmailId());
+            newUser.setFirstName(user.getFirstName());
+            newUser.setLastName(user.getLastName());
+            newUser.setPassword(passwordEncoder.encode(user.getPassword()));
+            newUser.setRole(role.orElse(null));
+            userrepo.save(newUser);
 
         } else {
             Role userRole = null;
@@ -127,9 +127,9 @@ public class UserService {
         return optionalUser.orElse(null);
     }
 
-    public User findByEmailId(String EmailId) {
-        User user = userrepo.findByEmailId(EmailId);
-        return user;
+    public User findByEmailId(String emailId) {
+
+        return userrepo.findByEmailId(emailId);
 
     }
 

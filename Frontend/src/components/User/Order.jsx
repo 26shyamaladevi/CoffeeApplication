@@ -21,8 +21,6 @@ function Order({ orderDetail }) {
   const handledownloadPDF = () => {
     downloadPDF(orderDetail.orderId);
   };
-  console.log("orderDetail", orderDetail);
-  console.log("orderDetail.totalPrice:", orderDetail.totalPrice);
 
   return (
     <div id='order-content'>

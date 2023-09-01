@@ -46,7 +46,7 @@ const WelcomePage = () => {
           text: "Your session has expired. Please log in again.",
         });
       } else {
-        errMsg = err.response.data.toString();
+        let errMsg = err.response.data.toString();
         setAlertMessage({
           type: "error",
           text: { errMsg },

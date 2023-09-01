@@ -60,7 +60,7 @@ function CheckOut() {
       console.log(res);
       alert("Order placed successfully!");
       setTimeout(() => {
-        navigateTo("/orders");
+        navigateTo("/orders", { state: { fromCheckout: true } });
       }, 2000);
     } catch (err) {
       console.log(err);

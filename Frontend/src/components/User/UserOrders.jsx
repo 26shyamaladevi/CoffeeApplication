@@ -1,7 +1,7 @@
 import Header from "./Header";
 import Order from "./Order";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getAuthToken } from "../AuthLogic/authTokenUtil";
 import { useSelector, useDispatch } from "react-redux";
@@ -42,6 +42,7 @@ function Icon({ id, open }) {
 
 function UserOrders() {
   const [open, setOpen] = useState(0);
+  const location = useLocation();
   const [latestFetchedOrderId, setLatestFetchedOrderId] = useState(null);
 
   const order = useSelector((state) => state.cart.order);
@@ -70,7 +71,10 @@ function UserOrders() {
   };
 
   useEffect(() => {
-    fetchOrders();
+    if (order.length === 0) {
+      fetchOrders();
+    }
+    console.log("****", location.state && location.state.fromCheckout === true);
   }, []);
 
   const createState = (orders) => {

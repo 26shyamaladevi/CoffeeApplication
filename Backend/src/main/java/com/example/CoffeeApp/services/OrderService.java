@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.example.CoffeeApp.domains.*;
 import com.example.CoffeeApp.repositories.OrderItemsRepo;
 import com.example.CoffeeApp.repositories.OrdersRepo;
-import com.example.CoffeeApp.repositories.PaymentRepo;;
+import com.example.CoffeeApp.repositories.PaymentRepo;
 
 @Service
 public class OrderService {
