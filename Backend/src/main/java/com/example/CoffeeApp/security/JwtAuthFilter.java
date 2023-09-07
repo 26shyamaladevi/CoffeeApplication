@@ -12,7 +12,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.example.CoffeeApp.domains.Role;
-import com.example.CoffeeApp.domains.User;
 import com.example.CoffeeApp.dto.UserDto;
 
 import jakarta.servlet.ServletException;
@@ -31,7 +30,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             FilterChain filterChain) throws IOException, ServletException {
 
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-        // System.out.println(request.getHeader(header));
 
         if (header != null) {
             String[] elements = header.split(" ");
@@ -39,23 +37,18 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             if (elements.length == 2 && "Bearer".equals(elements[0])) {
                 try {
                     Authentication authentication = userAuthProvider.validateToken(elements[1]);
-                    System.out.print("***********authen" + " " + authentication);
 
                     if (authentication != null && authentication.isAuthenticated()) {
                         UserDto user = (UserDto) authentication.getPrincipal();
                         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
                         Role role = user.getRole();
                         authorities.add(new SimpleGrantedAuthority(role.getRName()));
-                        System.out.println("***********" + " " + authorities);
                         UsernamePasswordAuthenticationToken updatedAuthentication = new UsernamePasswordAuthenticationToken(
                                 user, null, authorities);
                         updatedAuthentication.setDetails(authentication.getDetails());
                         SecurityContextHolder.getContext().setAuthentication(updatedAuthentication);
                     }
 
-                    // SecurityContextHolder.getContext()
-                    // .setAuthentication((Authentication)
-                    // userAuthProvider.validateToken(elements[1]));
                 } catch (RuntimeException e) {
                     SecurityContextHolder.clearContext();
                     throw e;

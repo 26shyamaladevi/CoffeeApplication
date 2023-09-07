@@ -1,10 +1,7 @@
 import Header from "./User/Header";
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Breadcrumbs } from "@material-tailwind/react";
-
-import { useNavigate } from "react-router-dom";
-
 import axios from "axios";
 import { getAuthToken } from "./AuthLogic/authTokenUtil";
 import { useSelector } from "react-redux";
@@ -59,11 +56,13 @@ function CheckOut() {
       const res = await axios.post("api/orders/add", order, {
         headers: headers,
       });
-      console.log("order res");
+      const productId = res.data;
+      alert(`Order created sucessfully!! Order ID: ${productId}`);
       console.log(res);
-      alert("Order placed successfully!");
       setTimeout(() => {
-        navigateTo("/orders");
+        navigateTo("/orders", {
+          state: { fromCheckout: true, productId: productId },
+        });
       }, 2000);
     } catch (err) {
       console.log(err);

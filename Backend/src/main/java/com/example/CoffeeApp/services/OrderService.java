@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.example.CoffeeApp.domains.*;
 import com.example.CoffeeApp.repositories.OrderItemsRepo;
 import com.example.CoffeeApp.repositories.OrdersRepo;
-import com.example.CoffeeApp.repositories.PaymentRepo;;
+import com.example.CoffeeApp.repositories.PaymentRepo;
 
 @Service
 public class OrderService {
@@ -24,6 +24,10 @@ public class OrderService {
     private PaymentRepo paymentRepo;
     @Autowired
     private OrderItemsRepo orderItemsRepo;
+
+    private static final String INVALID_PRODUCT = "Invalid Product";
+    private static final String INVALID_CUSTOMER = "Invalid Customer";
+    private static final String ORDER_NOTFOUND = "Order Not Found";
 
     public OrderService(UserService userService, ProductService productService, OrdersRepo orderepo,
             OrderItemsRepo orderItemsRepo,
@@ -41,7 +45,7 @@ public class OrderService {
         Optional<Orders> optionalOrder = ordersRepo.findByOrderId(orderId);
 
         if (optionalOrder.isEmpty()) {
-            throw new IllegalArgumentException("Order not found");
+            throw new IllegalArgumentException(ORDER_NOTFOUND);
         }
 
         Orders order = optionalOrder.get();
@@ -50,9 +54,7 @@ public class OrderService {
 
     // View all orders
     public List<OrderItems> viewAllOrders(Long userId) {
-        List<Orders> allOrders = ordersRepo.findAllByCustomerUserIdOrderByOrderDateDesc(userId);
-
-        System.out.println(allOrders.toString());
+        List<Orders> allOrders = ordersRepo.findAllByCustomerUserIdOrderByOrderDateAsc(userId);
 
         List<OrderItems> allOrderItems = new ArrayList<>();
 
@@ -65,18 +67,16 @@ public class OrderService {
     }
 
     // Create a New Order
-    public boolean createOrder(Orders order) {
+    public Long createOrder(Orders order) {
 
-        System.out.println("order");
-        System.out.println(order.getTotalPrice());
         User customer = userService.findById(order.getCustomer().getUserId());
         if (customer == null) {
-            throw new IllegalArgumentException("Invalid Customer");
+            throw new IllegalArgumentException(INVALID_CUSTOMER);
         }
         Payment payment = paymentRepo.findByPaymentMethod(order.getPaymentMethod());
 
         if (payment == null) {
-            throw new IllegalArgumentException("Invalid Customer");
+            throw new IllegalArgumentException(INVALID_CUSTOMER);
         }
 
         Orders newOrder = new Orders();
@@ -85,8 +85,9 @@ public class OrderService {
         newOrder.setPaymentMethod(payment.getPaymentMethod());
         newOrder.setTotalPrice(order.getTotalPrice());
 
-        // Save the Orders
-        ordersRepo.save(newOrder);
+        // Save the Orders and get the generated ID
+        Orders savedOrder = ordersRepo.save(newOrder);
+        Long orderId = savedOrder.getOrderId();
 
         // Set the managed Orders entity to the OrderItems
         for (OrderItems orderItem : order.getOrderItems()) {
@@ -100,14 +101,15 @@ public class OrderService {
                 orderItem.setPrice(orderItem.getPrice());
                 orderItem.setOrders(newOrder);
             } else {
-                throw new IllegalArgumentException("Invalid Product");
+                throw new IllegalArgumentException(INVALID_PRODUCT);
+
             }
         }
 
         // Save the OrderItems entities
         orderItemsRepo.saveAll(order.getOrderItems());
 
-        return true;
+        return orderId;
 
     }
 
@@ -117,11 +119,10 @@ public class OrderService {
         Optional<Orders> optionalOrder = ordersRepo.findByOrderId(orderId);
 
         if (optionalOrder.isEmpty()) {
-            throw new IllegalArgumentException("Order not found");
+            throw new IllegalArgumentException(ORDER_NOTFOUND);
         }
 
         Orders existingOrder = optionalOrder.get();
-        System.out.println("ExistingOrder: " + existingOrder);
 
         // Update the properties of the existing order with the values from the updated
         // order
@@ -147,7 +148,7 @@ public class OrderService {
                         existingItem.setQuantity(updatedItem.getQuantity());
                         existingItem.setOrders(existingOrder);
                     } else {
-                        throw new IllegalArgumentException("Invalid Product");
+                        throw new IllegalArgumentException(INVALID_PRODUCT);
                     }
                     itemExists = true;
                     break;
@@ -163,7 +164,7 @@ public class OrderService {
                     updatedItem.setOrders(existingOrder);
                     existingOrderItems.add(updatedItem);
                 } else {
-                    throw new IllegalArgumentException("Invalid Product");
+                    throw new IllegalArgumentException(INVALID_PRODUCT);
                 }
             }
         }

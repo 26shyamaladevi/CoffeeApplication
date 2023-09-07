@@ -28,22 +28,20 @@ public class RoleService {
     // add New Roles
     public Optional<Role> addRoles(Role role) {
         if (role.getRName().isEmpty()) {
-            Role user_role = new Role();
-            String USER = "USER";
-            user_role.setRName(USER);
-            user_role.setR_id(USER.hashCode());
-            rolerepo.save(user_role);
-            return Optional.of(user_role);
+            Role userRole = new Role();
+            String user = "USER";
+            userRole.setRName(user);
+            userRole.setR_id(user.hashCode());
+            rolerepo.save(userRole);
+            return Optional.of(userRole);
         } else {
             long uniqueId = role.getRName().hashCode();
-            System.out.println("Role: " + role.getRName());
             if (!rolerepo.existsById(uniqueId)) {
-                Role new_role = new Role();
-                new_role.setR_id(uniqueId);
-                new_role.setRName(role.getRName());
-                rolerepo.save(new_role);
-                // System.out.println("saved");
-                return Optional.of(new_role);
+                Role newRole = new Role();
+                newRole.setR_id(uniqueId);
+                newRole.setRName(role.getRName());
+                rolerepo.save(newRole);
+                return Optional.of(newRole);
             } else {
                 return rolerepo.findById(uniqueId);
             }

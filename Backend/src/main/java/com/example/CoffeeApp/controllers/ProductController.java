@@ -21,18 +21,18 @@ public class ProductController {
 
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getProducts() {
-        System.out.println(productservice.viewProducts());
         return ResponseEntity.ok(productservice.viewProducts());
     }
 
     @PostMapping("/products/add")
-    public ResponseEntity<String> addNewProducts(@ModelAttribute Product product,
+    public ResponseEntity<Long> addNewProducts(@ModelAttribute Product product,
             @RequestParam("image") MultipartFile image) throws IOException {
         if (product.getid() == 0 && productservice.getpName(product.getproductName())) {
-            productservice.addProduct(product, image);
-            return ResponseEntity.ok("New Product" + product.getproductName() + " added successfully");
+            Long productId = productservice.addProduct(product, image);
+            return ResponseEntity.ok(productId);
+
         } else {
-            return ResponseEntity.badRequest().body("Product already exsist");
+            return ResponseEntity.badRequest().body(-1L);
         }
 
     }

@@ -18,7 +18,7 @@ public class ProductService {
     }
 
     // Adds a new product to the repository
-    public void addProduct(Product p, MultipartFile imageFile) throws IOException {
+    public Long addProduct(Product p, MultipartFile imageFile) throws IOException {
         int id = Math.abs(p.getproductName().hashCode());
         Product newProduct = new Product();
 
@@ -28,7 +28,11 @@ public class ProductService {
         newProduct.setDescription(p.getDescription());
         newProduct.setImageData(imageFile.getBytes());
 
-        productrepo.save(newProduct);
+        Product savedProduct = productrepo.save(newProduct);
+
+        // Return the ID of the newly created product
+        return savedProduct.getid();
+
     }
 
     // Retrieves a list of all products
@@ -45,8 +49,6 @@ public class ProductService {
                 return "Product with ID " + product.getid() + " not found.";
             }
 
-            System.out.println("Inside Update------");
-
             Product existingProduct = existingProductOptional.get();
 
             // Set updated attributes
@@ -56,7 +58,6 @@ public class ProductService {
 
             // Update image data if a new image is provided
             if (imageFile != null && !imageFile.isEmpty()) {
-                System.out.println("Inside Imageee");
                 existingProduct.setImageData(imageFile.getBytes());
             }
 

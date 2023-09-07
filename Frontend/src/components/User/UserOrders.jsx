@@ -1,12 +1,10 @@
 import Header from "./Header";
-import Footer from "./Footer";
 import Order from "./Order";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getAuthToken } from "../AuthLogic/authTokenUtil";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { addOrder } from "../Store/cartSlice";
 import {
   Accordion,
@@ -15,7 +13,7 @@ import {
   Breadcrumbs,
   Button,
 } from "@material-tailwind/react";
-import { useSelector } from "react-redux";
+
 const CUSTOM_ANIMATION = {
   mount: { scale: 1 },
   unmount: { scale: 0.9 },
@@ -44,11 +42,12 @@ function Icon({ id, open }) {
 
 function UserOrders() {
   const [open, setOpen] = useState(0);
-  const [latestFetchedOrderId, setLatestFetchedOrderId] = useState(null);
+  const location = useLocation();
 
   const order = useSelector((state) => state.cart.order);
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
+  const openAccordionRef = useRef(null);
 
   const fetchOrders = async () => {
     const token = getAuthToken();
@@ -71,9 +70,44 @@ function UserOrders() {
     }
   };
 
+  const fetchNewOrders = async (latestOrderId) => {
+    const token = getAuthToken();
+    let headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    try {
+      const response = await axios.get(`api/orders/${latestOrderId}`, {
+        headers: headers,
+      });
+      console.log(response);
+      // Function to structure the state as per the desired format
+      const structuredState = createState(response.data);
+      dispatch(addOrder(structuredState[0]));
+      // Set the open state to the orderId of the newly added order
+      setOpen(structuredState[0].orderId);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
-    fetchOrders();
+    if (order.length === 0) {
+      fetchOrders();
+    } else if (
+      location.state &&
+      location.state.fromCheckout === true &&
+      location.state.productId !== -1
+    ) {
+      fetchNewOrders(location.state.productId);
+    }
   }, []);
+
+  useEffect(() => {
+    // Focus on the open accordion whenever the open state changes
+    if (openAccordionRef.current) {
+      openAccordionRef.current.focus();
+    }
+  }, [open]);
 
   const createState = (orders) => {
     const OrdersArr = [];
@@ -173,6 +207,7 @@ function UserOrders() {
                 key={orderDetails.orderId}
                 open={open === orderDetails.orderId}
                 animate={CUSTOM_ANIMATION}
+                ref={open === orderDetails.orderId ? openAccordionRef : null}
                 icon={<Icon id={orderDetails.orderId} open={open} />}
                 className=' py-1 bg-gray-100/50 w-auto h-auto'
               >

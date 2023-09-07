@@ -64,15 +64,14 @@ public class UserService {
     public void addUsers(User user) {
         if (user.getRole() != null && user.getRole().getRName() != null) {
             Optional<Role> role = roleService.addRoles(user.getRole());
-            System.out.print(user.getRole());
 
-            User new_user = new User();
-            new_user.setEmailId(user.getEmailId());
-            new_user.setFirstName(user.getFirstName());
-            new_user.setLastName(user.getLastName());
-            new_user.setPassword(passwordEncoder.encode(user.getPassword()));
-            new_user.setRole(role.orElse(null));
-            userrepo.save(new_user);
+            User newUser = new User();
+            newUser.setEmailId(user.getEmailId());
+            newUser.setFirstName(user.getFirstName());
+            newUser.setLastName(user.getLastName());
+            newUser.setPassword(passwordEncoder.encode(user.getPassword()));
+            newUser.setRole(role.orElse(null));
+            userrepo.save(newUser);
 
         } else {
             Role userRole = null;
@@ -108,8 +107,6 @@ public class UserService {
     // Update an existing user
     public String updateUser(User u, String password) {
 
-        System.out.println("Inside updateUser" + password);
-
         u.setPassword(passwordEncoder.encode(password));
         userrepo.save(u);
         return "Password updated sucessfully!";
@@ -130,16 +127,13 @@ public class UserService {
         return optionalUser.orElse(null);
     }
 
-    public User findByEmailId(String EmailId) {
-        User user = userrepo.findByEmailId(EmailId);
-        System.out.println(user + "fromfindbyemailId");
+    public User findByEmailId(String emailId) {
 
-        return user;
+        return userrepo.findByEmailId(emailId);
 
     }
 
     public UserDto findByLogin(String login) {
-        // System.out.println("login---------------------------" + login);
         User user = userrepo.findByEmailId(login);
         if (user == null) {
             throw new AppException("Unknown user", HttpStatus.NOT_FOUND);

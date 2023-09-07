@@ -47,7 +47,7 @@ public class OrderController {
             return orderService.viewAllOrders(userId);
         }
 
-        return null;
+        return Collections.emptyList();
 
     }
 
@@ -64,18 +64,10 @@ public class OrderController {
 
     // CreateOrder
     @PostMapping("orders/add")
-    public ResponseEntity<String> addNewOrders(@RequestBody Orders order) {
+    public ResponseEntity<Long> addNewOrders(@RequestBody Orders order) {
 
-        System.out.println("Received Order: " + order.toString());
-
-        // if (order.getCustomer() == null) {
-        // throw new IllegalArgumentException("Customer cannot be null.");
-        // }
-
-        System.out.println("Received Order: " + order.toString());
-
-        boolean created = orderService.createOrder(order);
-        return (created) ? ResponseEntity.ok("Order created sucessfully") : ResponseEntity.notFound().build();
+        Long orderId = orderService.createOrder(order);
+        return (orderId != null) ? ResponseEntity.ok(orderId) : ResponseEntity.notFound().build();
 
     }
 

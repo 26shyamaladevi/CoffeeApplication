@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
@@ -47,7 +46,7 @@ const WelcomePage = () => {
           text: "Your session has expired. Please log in again.",
         });
       } else {
-        errMsg = err.response.data.toString();
+        let errMsg = err.response.data.toString();
         setAlertMessage({
           type: "error",
           text: { errMsg },
@@ -117,7 +116,7 @@ const WelcomePage = () => {
               >
                 {products.map(
                   ({ id, productName, price, description, imageData }) => (
-                    <div className='mt-2 mb-4 '>
+                    <div className='mt-2 mb-4 ' key={id}>
                       <ProductCard
                         id={id}
                         quantity={1} // Set the initial quantity to 1
