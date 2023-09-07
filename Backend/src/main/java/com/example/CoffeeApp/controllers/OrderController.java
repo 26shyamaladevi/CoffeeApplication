@@ -64,10 +64,10 @@ public class OrderController {
 
     // CreateOrder
     @PostMapping("orders/add")
-    public ResponseEntity<String> addNewOrders(@RequestBody Orders order) {
+    public ResponseEntity<Long> addNewOrders(@RequestBody Orders order) {
 
-        boolean created = orderService.createOrder(order);
-        return (created) ? ResponseEntity.ok("Order created sucessfully") : ResponseEntity.notFound().build();
+        Long orderId = orderService.createOrder(order);
+        return (orderId != null) ? ResponseEntity.ok(orderId) : ResponseEntity.notFound().build();
 
     }
 

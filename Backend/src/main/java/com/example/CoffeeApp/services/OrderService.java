@@ -54,7 +54,7 @@ public class OrderService {
 
     // View all orders
     public List<OrderItems> viewAllOrders(Long userId) {
-        List<Orders> allOrders = ordersRepo.findAllByCustomerUserIdOrderByOrderDateDesc(userId);
+        List<Orders> allOrders = ordersRepo.findAllByCustomerUserIdOrderByOrderDateAsc(userId);
 
         List<OrderItems> allOrderItems = new ArrayList<>();
 
@@ -67,7 +67,7 @@ public class OrderService {
     }
 
     // Create a New Order
-    public boolean createOrder(Orders order) {
+    public Long createOrder(Orders order) {
 
         User customer = userService.findById(order.getCustomer().getUserId());
         if (customer == null) {
@@ -85,8 +85,9 @@ public class OrderService {
         newOrder.setPaymentMethod(payment.getPaymentMethod());
         newOrder.setTotalPrice(order.getTotalPrice());
 
-        // Save the Orders
-        ordersRepo.save(newOrder);
+        // Save the Orders and get the generated ID
+        Orders savedOrder = ordersRepo.save(newOrder);
+        Long orderId = savedOrder.getOrderId();
 
         // Set the managed Orders entity to the OrderItems
         for (OrderItems orderItem : order.getOrderItems()) {
@@ -108,7 +109,7 @@ public class OrderService {
         // Save the OrderItems entities
         orderItemsRepo.saveAll(order.getOrderItems());
 
-        return true;
+        return orderId;
 
     }
 

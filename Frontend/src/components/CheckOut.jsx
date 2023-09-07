@@ -56,11 +56,13 @@ function CheckOut() {
       const res = await axios.post("api/orders/add", order, {
         headers: headers,
       });
-      console.log("order res");
+      const productId = res.data;
+      alert(`Order created sucessfully!! Order ID: ${productId}`);
       console.log(res);
-      alert("Order placed successfully!");
       setTimeout(() => {
-        navigateTo("/orders", { state: { fromCheckout: true } });
+        navigateTo("/orders", {
+          state: { fromCheckout: true, productId: productId },
+        });
       }, 2000);
     } catch (err) {
       console.log(err);

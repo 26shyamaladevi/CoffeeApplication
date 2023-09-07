@@ -1,6 +1,6 @@
 import Header from "./Header";
 import Order from "./Order";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getAuthToken } from "../AuthLogic/authTokenUtil";
@@ -43,11 +43,11 @@ function Icon({ id, open }) {
 function UserOrders() {
   const [open, setOpen] = useState(0);
   const location = useLocation();
-  const [latestFetchedOrderId, setLatestFetchedOrderId] = useState(null);
 
   const order = useSelector((state) => state.cart.order);
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
+  const openAccordionRef = useRef(null);
 
   const fetchOrders = async () => {
     const token = getAuthToken();
@@ -70,12 +70,44 @@ function UserOrders() {
     }
   };
 
+  const fetchNewOrders = async (latestOrderId) => {
+    const token = getAuthToken();
+    let headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    try {
+      const response = await axios.get(`api/orders/${latestOrderId}`, {
+        headers: headers,
+      });
+      console.log(response);
+      // Function to structure the state as per the desired format
+      const structuredState = createState(response.data);
+      dispatch(addOrder(structuredState[0]));
+      // Set the open state to the orderId of the newly added order
+      setOpen(structuredState[0].orderId);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     if (order.length === 0) {
       fetchOrders();
+    } else if (
+      location.state &&
+      location.state.fromCheckout === true &&
+      location.state.productId !== -1
+    ) {
+      fetchNewOrders(location.state.productId);
     }
-    console.log("****", location.state && location.state.fromCheckout === true);
   }, []);
+
+  useEffect(() => {
+    // Focus on the open accordion whenever the open state changes
+    if (openAccordionRef.current) {
+      openAccordionRef.current.focus();
+    }
+  }, [open]);
 
   const createState = (orders) => {
     const OrdersArr = [];
@@ -175,6 +207,7 @@ function UserOrders() {
                 key={orderDetails.orderId}
                 open={open === orderDetails.orderId}
                 animate={CUSTOM_ANIMATION}
+                ref={open === orderDetails.orderId ? openAccordionRef : null}
                 icon={<Icon id={orderDetails.orderId} open={open} />}
                 className=' py-1 bg-gray-100/50 w-auto h-auto'
               >
