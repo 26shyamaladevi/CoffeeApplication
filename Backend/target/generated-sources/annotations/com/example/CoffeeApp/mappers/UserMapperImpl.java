@@ -2,14 +2,13 @@ package com.example.CoffeeApp.mappers;
 
 import com.example.CoffeeApp.domains.User;
 import com.example.CoffeeApp.dto.UserDto;
-import com.example.CoffeeApp.dto.UserDto.UserDtoBuilder;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-09-07T10:34:09-0500",
-    comments = "version: 1.4.2.Final, compiler: Eclipse JDT (IDE) 3.35.0.v20230721-1147, environment: Java 17.0.7 (Eclipse Adoptium)"
+    date = "2023-09-07T16:07:27-0500",
+    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 20.0.1 (Homebrew)"
 )
 @Component
 public class UserMapperImpl implements UserMapper {
@@ -20,14 +19,14 @@ public class UserMapperImpl implements UserMapper {
             return null;
         }
 
-        UserDtoBuilder userDto = UserDto.builder();
+        UserDto userDto = new UserDto();
 
-        userDto.emailId( user.getEmailId() );
-        userDto.firstName( user.getFirstName() );
-        userDto.lastName( user.getLastName() );
-        userDto.role( user.getRole() );
-        userDto.userId( user.getUserId() );
+        userDto.setUserId( user.getUserId() );
+        userDto.setFirstName( user.getFirstName() );
+        userDto.setLastName( user.getLastName() );
+        userDto.setEmailId( user.getEmailId() );
+        userDto.setRole( user.getRole() );
 
-        return userDto.build();
+        return userDto;
     }
 }

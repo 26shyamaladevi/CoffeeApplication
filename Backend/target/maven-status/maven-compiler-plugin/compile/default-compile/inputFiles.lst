@@ -7,6 +7,7 @@
 /Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/controllers/PaymentController.java
 /Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/dto/UserDto.java
 /Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/services/OrderService.java
+/Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/kafka/KafkaConsumerService.java
 /Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/security/RestExceptionHandler.java
 /Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/security/UserAuthProvider.java
 /Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/domains/User.java
@@ -20,11 +21,13 @@
 /Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/domains/Product.java
 /Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/controllers/RoleController.java
 /Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/repositories/OrderItemsRepo.java
+/Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/kafka/KafkaTopicConfiguration.java
 /Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/controllers/UserController.java
 /Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/domains/PasswordGenerator.java
 /Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/controllers/LoginController.java
 /Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/exception/AppException.java
 /Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/repositories/PaymentRepo.java
+/Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/kafka/KafkaProducerService.java
 /Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/repositories/UserRepo.java
 /Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/controllers/ProductController.java
 /Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/mappers/UserMapper.java

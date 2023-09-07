@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.CoffeeApp.domains.*;
+import com.example.CoffeeApp.kafka.KafkaProducerService;
 import com.example.CoffeeApp.repositories.OrderItemsRepo;
 import com.example.CoffeeApp.repositories.OrdersRepo;
 import com.example.CoffeeApp.repositories.PaymentRepo;
@@ -24,6 +25,8 @@ public class OrderService {
     private PaymentRepo paymentRepo;
     @Autowired
     private OrderItemsRepo orderItemsRepo;
+    @Autowired
+    private KafkaProducerService kafkaProducerService;
 
     private static final String INVALID_PRODUCT = "Invalid Product";
     private static final String INVALID_CUSTOMER = "Invalid Customer";
@@ -31,12 +34,14 @@ public class OrderService {
 
     public OrderService(UserService userService, ProductService productService, OrdersRepo orderepo,
             OrderItemsRepo orderItemsRepo,
-            PaymentRepo paymentRepo) {
+            PaymentRepo paymentRepo,
+            KafkaProducerService kafkaProducerService) {
         this.userService = userService;
         this.productService = productService;
         this.ordersRepo = orderepo;
         this.orderItemsRepo = orderItemsRepo;
         this.paymentRepo = paymentRepo;
+        this.kafkaProducerService = kafkaProducerService;
     }
 
     // Display Items of the Orders by OrderID
@@ -108,6 +113,10 @@ public class OrderService {
 
         // Save the OrderItems entities
         orderItemsRepo.saveAll(order.getOrderItems());
+
+        // Send Message to Kafka
+        String message = "Order sucessfully cretaed " + orderId;
+        kafkaProducerService.sendMessage("order-notification", message);
 
         return orderId;
 
