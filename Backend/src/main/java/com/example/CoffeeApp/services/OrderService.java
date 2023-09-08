@@ -11,6 +11,7 @@ import com.example.CoffeeApp.kafka.KafkaProducerService;
 import com.example.CoffeeApp.repositories.OrderItemsRepo;
 import com.example.CoffeeApp.repositories.OrdersRepo;
 import com.example.CoffeeApp.repositories.PaymentRepo;
+import com.example.CoffeeApp.services.email.EmailService;
 
 @Service
 public class OrderService {
@@ -27,6 +28,8 @@ public class OrderService {
     private OrderItemsRepo orderItemsRepo;
     @Autowired
     private KafkaProducerService kafkaProducerService;
+    @Autowired
+    private EmailService emailService;
 
     private static final String INVALID_PRODUCT = "Invalid Product";
     private static final String INVALID_CUSTOMER = "Invalid Customer";
@@ -115,8 +118,15 @@ public class OrderService {
         orderItemsRepo.saveAll(order.getOrderItems());
 
         // Send Message to Kafka
-        String message = "Order sucessfully cretaed " + orderId;
-        kafkaProducerService.sendMessage("order-notification", message);
+        try {
+            String message = "Order successfully created " + orderId;
+            kafkaProducerService.sendMessage("order-notification", customer.getEmailId(), message);
+
+        } catch (Exception e) {
+            e.printStackTrace(); // Print the stack trace for debugging purposes
+            emailService.sendEmail(customer.getEmailId(), "order failed",
+                    "Failed to process the order");
+        }
 
         return orderId;
 

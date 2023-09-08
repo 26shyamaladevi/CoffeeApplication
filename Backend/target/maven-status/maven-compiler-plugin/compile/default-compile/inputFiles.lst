@@ -33,6 +33,7 @@
 /Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/mappers/UserMapper.java
 /Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/security/JwtAuthFilter.java
 /Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/security/UserAuthenticationEntryPoint.java
+/Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/services/email/EmailService.java
 /Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/controllers/OrderController.java
 /Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/CoffeeAppApplication.java
 /Users/shyamaladevisankar/Documents/programming_practice/CoffeeApplication/Backend/src/main/java/com/example/CoffeeApp/services/UserService.java

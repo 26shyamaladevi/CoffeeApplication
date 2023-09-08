@@ -16,9 +16,9 @@ public class KafkaProducerService {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendMessage(String topic, String message) {
+    public void sendMessage(String topic, String emailId, String message) {
         logger.info("******FROM PRODUCER*******");
-        kafkaTemplate.send(topic, message);
+        kafkaTemplate.send(topic, emailId, message);
         logger.info("Message sent to topic: {}", topic);
 
     }
